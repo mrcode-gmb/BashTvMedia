@@ -15,6 +15,7 @@ interface NewsCardProps {
     slug?: string;
     variant?: 'default' | 'horizontal' | 'compact';
     className?: string;
+    lightText?: boolean;
 }
 
 export const NewsCard = ({
@@ -28,27 +29,12 @@ export const NewsCard = ({
     slug,
     variant = 'default',
     className = '',
+    lightText = false,
 }: NewsCardProps) => {
-    const href = publicId
-        ? route('posts.show.full', publicId)
-        : slug
-          ? route('posts.show.full', slug)
-          : undefined;
+    const href = publicId ? route('posts.show.full', publicId) : slug ? route('posts.show.full', slug) : null;
 
-    const Wrapper = href ? Link : 'article';
-    const wrapperProps = href ? { href } : {};
-
-    return (
-        <Wrapper
-            {...wrapperProps}
-            className={cn(
-                'card-news group block',
-                variant === 'horizontal' && 'flex gap-4 p-4',
-                variant === 'compact' && 'rounded-[1.15rem] border border-border/80 bg-white p-4 shadow-none',
-                variant === 'default' && 'overflow-hidden',
-                className,
-            )}
-        >
+    const content = (
+        <>
             {(image || videoUrl) && variant !== 'compact' && (
                 <div
                     className={cn(
@@ -79,29 +65,63 @@ export const NewsCard = ({
             )}
 
             <div className={cn('min-w-0', variant === 'default' && 'p-5')}>
-                <span className="category-tag">{category}</span>
+                <span className={cn('category-tag', lightText && 'border-white/15 bg-white/10 text-white')}>
+                    {category}
+                </span>
                 <h3
                     className={cn(
                         'mt-3 line-clamp-3',
                         variant === 'default' ? 'news-title-md' : 'news-title-sm',
+                        lightText && 'text-white hover:text-[hsl(var(--BashTv-light-gold))]',
                     )}
                 >
                     {title}
                 </h3>
 
                 {excerpt && variant !== 'compact' && (
-                    <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">
+                    <p className={cn('mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground', lightText && 'text-white/72')}>
                         {excerpt}
                     </p>
                 )}
 
                 {date && (
-                    <div className="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                    <div className={cn('mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground', lightText && 'text-white/55')}>
                         <CalendarDays className="h-3.5 w-3.5 text-accent" />
                         <span>{date}</span>
                     </div>
                 )}
             </div>
-        </Wrapper>
+        </>
+    );
+
+    if (href) {
+        return (
+            <Link
+                href={href}
+                className={cn(
+                    'card-news group block',
+                    variant === 'horizontal' && 'flex gap-4 p-4',
+                    variant === 'compact' && 'rounded-[1.15rem] border border-border/80 bg-white p-4 shadow-none',
+                    variant === 'default' && 'overflow-hidden',
+                    className,
+                )}
+            >
+                {content}
+            </Link>
+        );
+    }
+
+    return (
+        <article
+            className={cn(
+                'card-news group block',
+                variant === 'horizontal' && 'flex gap-4 p-4',
+                variant === 'compact' && 'rounded-[1.15rem] border border-border/80 bg-white p-4 shadow-none',
+                variant === 'default' && 'overflow-hidden',
+                className,
+            )}
+        >
+            {content}
+        </article>
     );
 };

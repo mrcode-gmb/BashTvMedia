@@ -20,6 +20,7 @@ use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\CategoryController as OutCategoryController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\FooterPageController;
 
 // SEO Routes
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.index');
@@ -32,6 +33,8 @@ Route::get('/categories', [OutCategoryController::class, 'index'])->name('catego
 
 // Search Route
 Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+Route::get('/desk/{slug}', [FooterPageController::class, 'show'])->name('desk.show');
+Route::get('/contact-us', [FooterPageController::class, 'contact'])->name('contact.show');
 
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 

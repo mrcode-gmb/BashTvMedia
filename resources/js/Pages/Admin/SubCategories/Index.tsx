@@ -1,10 +1,18 @@
 import AdminLayout from '@/Layouts/AdminLayout';
-import { Head, Link, router } from '@inertiajs/react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card';
-import { Button } from '@/Components/ui/button';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/Components/ui/pagination';
 import { Badge } from '@/Components/ui/badge';
+import { Button } from '@/Components/ui/button';
+import { Card, CardContent } from '@/Components/ui/card';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+} from '@/Components/ui/pagination';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/Components/ui/table';
+import { Head, Link, router } from '@inertiajs/react';
+import { ArrowRight, FolderTree, Hash, Layers3, Trash2 } from 'lucide-react';
 
 interface SubCategory {
     id: number;
@@ -26,7 +34,11 @@ interface PaginatedSubCategories {
     next_page_url: string | null;
 }
 
-export default function Index({ subcategories }: { subcategories: PaginatedSubCategories }) {
+export default function Index({
+    subcategories,
+}: {
+    subcategories: PaginatedSubCategories;
+}) {
     const deleteSubCategory = (id: number) => {
         if (confirm('Are you sure you want to delete this subcategory?')) {
             router.delete(route('admin.subcategories.destroy', id));
@@ -37,18 +49,37 @@ export default function Index({ subcategories }: { subcategories: PaginatedSubCa
         <AdminLayout header="Sub Categories">
             <Head title="Sub Category Management" />
 
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Sub Category Management</h1>
-                <Link href={route('admin.subcategories.create')}>
-                    <Button>Add Sub Category</Button>
-                </Link>
-            </div>
+            <section className="rounded-[2rem] bg-white/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8">
+                <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+                    <div>
+                        <p className="section-heading">Structure</p>
+                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                            Sub Category Management
+                        </h2>
+                        <p className="mt-3 max-w-3xl text-sm leading-8 text-muted-foreground">
+                            Build more precise desks beneath your main categories so BASHTV stories
+                            stay well-structured and easier to browse.
+                        </p>
+                    </div>
 
-            <Card>
-                <CardHeader>
-                    <CardTitle>All Sub Categories</CardTitle>
-                </CardHeader>
-                <CardContent>
+                    <Link href={route('admin.subcategories.create')}>
+                        <Button className="h-12 rounded-full bg-[hsl(var(--BashTv-navy))] px-6 text-white hover:bg-accent">
+                            Add Sub Category
+                            <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                    </Link>
+                </div>
+            </section>
+
+            <section className="mt-8 rounded-[2rem] bg-white/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)]">
+                <div className="mb-6">
+                    <p className="section-heading">Directory</p>
+                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        All Sub Categories
+                    </h3>
+                </div>
+
+                <div className="hidden overflow-x-auto md:block">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -56,44 +87,138 @@ export default function Index({ subcategories }: { subcategories: PaginatedSubCa
                                 <TableHead>Parent Category</TableHead>
                                 <TableHead>Slug</TableHead>
                                 <TableHead>Posts</TableHead>
-                                <TableHead>Actions</TableHead>
+                                <TableHead className="text-right">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {subcategories.data.length > 0 ? (
                                 subcategories.data.map((subcategory) => (
                                     <TableRow key={subcategory.id}>
-                                        <TableCell className="font-medium">{subcategory.name}</TableCell>
-                                        <TableCell>
-                                            <Badge variant="secondary">{subcategory.category.name}</Badge>
+                                        <TableCell className="font-medium text-[hsl(var(--BashTv-navy))]">
+                                            {subcategory.name}
                                         </TableCell>
-                                        <TableCell className="text-muted-foreground">{subcategory.slug}</TableCell>
+                                        <TableCell>
+                                            <Badge variant="secondary">
+                                                {subcategory.category.name}
+                                            </Badge>
+                                        </TableCell>
+                                        <TableCell className="text-muted-foreground">
+                                            {subcategory.slug}
+                                        </TableCell>
                                         <TableCell>{subcategory.posts_count}</TableCell>
                                         <TableCell>
-                                            <Link href={route('admin.subcategories.edit', subcategory.id)} className="mr-2">
-                                                <Button variant="outline" size="sm">Edit</Button>
-                                            </Link>
-                                            <Button 
-                                                variant="destructive" 
-                                                size="sm"
-                                                onClick={() => deleteSubCategory(subcategory.id)}
-                                            >
-                                                Delete
-                                            </Button>
+                                            <div className="flex justify-end gap-2">
+                                                <Link
+                                                    href={route(
+                                                        'admin.subcategories.edit',
+                                                        subcategory.id,
+                                                    )}
+                                                >
+                                                    <Button variant="outline" size="sm">
+                                                        Edit
+                                                    </Button>
+                                                </Link>
+                                                <Button
+                                                    variant="destructive"
+                                                    size="sm"
+                                                    onClick={() =>
+                                                        deleteSubCategory(subcategory.id)
+                                                    }
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </div>
                                         </TableCell>
                                     </TableRow>
                                 ))
                             ) : (
                                 <TableRow>
-                                    <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
+                                    <TableCell
+                                        colSpan={5}
+                                        className="py-8 text-center text-muted-foreground"
+                                    >
                                         No subcategories found. Create your first subcategory!
                                     </TableCell>
                                 </TableRow>
                             )}
                         </TableBody>
                     </Table>
-                </CardContent>
-            </Card>
+                </div>
+
+                <div className="space-y-4 md:hidden">
+                    {subcategories.data.map((subcategory) => (
+                        <Card
+                            key={subcategory.id}
+                            className="overflow-hidden rounded-[1.5rem] border-0 bg-[hsl(var(--BashTv-light))]/85 shadow-none"
+                        >
+                            <CardContent className="p-4">
+                                <div className="space-y-4">
+                                    <div>
+                                        <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                                            {subcategory.name}
+                                        </h3>
+                                        <div className="mt-3">
+                                            <Badge variant="secondary">
+                                                {subcategory.category.name}
+                                            </Badge>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-3 text-sm">
+                                        <div className="rounded-[1.2rem] bg-white p-3">
+                                            <div className="flex items-center gap-2 text-muted-foreground">
+                                                <Hash className="h-4 w-4 text-accent" />
+                                                Slug
+                                            </div>
+                                            <p className="mt-2 truncate font-medium text-[hsl(var(--BashTv-navy))]">
+                                                {subcategory.slug}
+                                            </p>
+                                        </div>
+                                        <div className="rounded-[1.2rem] bg-white p-3">
+                                            <div className="flex items-center gap-2 text-muted-foreground">
+                                                <Layers3 className="h-4 w-4 text-primary" />
+                                                Posts
+                                            </div>
+                                            <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))]">
+                                                {subcategory.posts_count}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex gap-2">
+                                        <Link
+                                            href={route(
+                                                'admin.subcategories.edit',
+                                                subcategory.id,
+                                            )}
+                                            className="flex-1"
+                                        >
+                                            <Button variant="outline" className="w-full">
+                                                <FolderTree className="mr-2 h-4 w-4" />
+                                                Edit
+                                            </Button>
+                                        </Link>
+                                        <Button
+                                            variant="destructive"
+                                            className="flex-1"
+                                            onClick={() => deleteSubCategory(subcategory.id)}
+                                        >
+                                            <Trash2 className="mr-2 h-4 w-4" />
+                                            Delete
+                                        </Button>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    ))}
+
+                    {subcategories.data.length === 0 && (
+                        <div className="py-8 text-center text-muted-foreground">
+                            No subcategories found. Create your first subcategory!
+                        </div>
+                    )}
+                </div>
+            </section>
 
             {subcategories.last_page > 1 && (
                 <Pagination className="mt-6">
@@ -105,8 +230,8 @@ export default function Index({ subcategories }: { subcategories: PaginatedSubCa
                         )}
                         {[...Array(subcategories.last_page)].map((_, i) => (
                             <PaginationItem key={i}>
-                                <PaginationLink 
-                                    href={`${subcategories.path}?page=${i + 1}`} 
+                                <PaginationLink
+                                    href={`${subcategories.path}?page=${i + 1}`}
                                     isActive={subcategories.current_page === i + 1}
                                 >
                                     {i + 1}

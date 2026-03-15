@@ -1,20 +1,42 @@
 import { ChevronRight, PlayCircle, Radio, Youtube } from 'lucide-react';
+import { Link } from '@inertiajs/react';
 
 import { PantamiLogo } from '@/Components/PantamiLogo';
 import { BRAND_CHANNEL_URL, BRAND_HANDLE, BRAND_NAME, BRAND_TAGLINE } from '@/lib/brand';
 
+type FooterLink = {
+    label: string;
+    href: string;
+    external?: boolean;
+};
+
 const footerSections = [
     {
         title: 'Coverage',
-        links: ['Headlines', 'Politics', 'World', 'Business'],
+        links: [
+            { label: 'Headlines', href: '/desk/headlines' },
+            { label: 'Politics', href: '/desk/politics' },
+            { label: 'World', href: '/desk/world' },
+            { label: 'Business', href: '/desk/business' },
+        ] satisfies FooterLink[],
     },
     {
         title: 'Video Desk',
-        links: ['Reports', 'Interviews', 'Explainers', 'Special Features'],
+        links: [
+            { label: 'Reports', href: '/desk/reports' },
+            { label: 'Interviews', href: '/desk/interviews' },
+            { label: 'Explainers', href: '/desk/explainers' },
+            { label: 'Special Features', href: '/desk/special-features' },
+        ] satisfies FooterLink[],
     },
     {
         title: 'Audience',
-        links: ['Hausa News', 'Breaking Stories', 'Community Watch', 'Contact'],
+        links: [
+            { label: 'Hausa News', href: '/desk/hausa-news' },
+            { label: 'Breaking Stories', href: '/desk/breaking-stories' },
+            { label: 'Community Watch', href: '/desk/community-watch' },
+            { label: 'Contact', href: '/contact-us' },
+        ] satisfies FooterLink[],
     },
 ];
 
@@ -33,7 +55,7 @@ export const Footer = () => {
                             <span className="brand-outline inline-flex">
                                 {BRAND_HANDLE}
                             </span>
-                            <h2 className="max-w-xl font-serif text-3xl font-bold tracking-[0.2em] text-white sm:text-4xl">
+                            <h2 className="max-w-xl font-serif text-2xl font-semibold tracking-[0.16em] text-white sm:text-3xl">
                                 {BRAND_NAME}
                             </h2>
                             <p className="max-w-2xl text-sm leading-7 text-white/72 sm:text-base">
@@ -43,36 +65,36 @@ export const Footer = () => {
                         </div>
 
                         <div className="grid gap-4 sm:grid-cols-3">
-                            <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4">
+                            <div className="rounded-[1.25rem] bg-white/6 p-4">
                                 <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
                                     <PlayCircle className="h-5 w-5 text-[hsl(var(--BashTv-light-gold))]" />
                                 </div>
                                 <p className="text-xs uppercase tracking-[0.24em] text-white/55">Focus</p>
-                                <p className="mt-2 text-sm font-semibold text-white/90">Video-first reporting</p>
+                                <p className="mt-2 text-sm font-medium text-white/90">Video-first reporting</p>
                             </div>
-                            <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4">
+                            <div className="rounded-[1.25rem] bg-white/6 p-4">
                                 <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
                                     <Radio className="h-5 w-5 text-[hsl(var(--BashTv-cyan))]" />
                                 </div>
                                 <p className="text-xs uppercase tracking-[0.24em] text-white/55">Audience</p>
-                                <p className="mt-2 text-sm font-semibold text-white/90">Hausa news community</p>
+                                <p className="mt-2 text-sm font-medium text-white/90">Hausa news community</p>
                             </div>
-                            <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4">
+                            <div className="rounded-[1.25rem] bg-white/6 p-4">
                                 <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
                                     <Youtube className="h-5 w-5 text-[hsl(var(--BashTv-bright))]" />
                                 </div>
                                 <p className="text-xs uppercase tracking-[0.24em] text-white/55">Platform</p>
-                                <p className="mt-2 text-sm font-semibold text-white/90">YouTube-led media brand</p>
+                                <p className="mt-2 text-sm font-medium text-white/90">YouTube-led media brand</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-1">
-                        <div className="rounded-[1.5rem] border border-white/12 bg-white/6 p-6">
-                            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[hsl(var(--BashTv-light-gold))]">
+                        <div className="rounded-[1.5rem] bg-white/6 p-6">
+                            <p className="text-xs font-medium uppercase tracking-[0.28em] text-[hsl(var(--BashTv-light-gold))]">
                                 Stay Connected
                             </p>
-                            <h3 className="mt-3 font-serif text-2xl font-bold text-white">
+                            <h3 className="mt-3 font-serif text-xl font-semibold text-white">
                                 Follow BASHTV MEDIA on YouTube
                             </h3>
                             <p className="mt-3 text-sm leading-7 text-white/72">
@@ -82,7 +104,7 @@ export const Footer = () => {
                                 href={BRAND_CHANNEL_URL}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent/90"
+                                className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition hover:bg-accent/90"
                             >
                                 <Youtube className="h-4 w-4" />
                                 Open Channel
@@ -92,16 +114,29 @@ export const Footer = () => {
                         <div className="grid gap-5 sm:grid-cols-3 lg:grid-cols-3">
                             {footerSections.map((section) => (
                                 <div key={section.title}>
-                                    <h4 className="text-xs font-semibold uppercase tracking-[0.28em] text-[hsl(var(--BashTv-light-gold))]">
+                                    <h4 className="text-xs font-medium uppercase tracking-[0.28em] text-[hsl(var(--BashTv-light-gold))]">
                                         {section.title}
                                     </h4>
                                     <ul className="mt-4 space-y-3 text-sm text-white/72">
                                         {section.links.map((link) => (
-                                            <li key={link}>
-                                                <a href="#" className="inline-flex items-center gap-2 transition hover:text-white">
-                                                    <ChevronRight className="h-3.5 w-3.5 text-accent" />
-                                                    {link}
-                                                </a>
+                                            <li key={link.label}>
+                                                {link.external ? (
+                                                    <a
+                                                        href={link.href}
+                                                        className="inline-flex items-center gap-2 transition hover:text-white"
+                                                    >
+                                                        <ChevronRight className="h-3.5 w-3.5 text-accent" />
+                                                        {link.label}
+                                                    </a>
+                                                ) : (
+                                                    <Link
+                                                        href={link.href}
+                                                        className="inline-flex items-center gap-2 transition hover:text-white"
+                                                    >
+                                                        <ChevronRight className="h-3.5 w-3.5 text-accent" />
+                                                        {link.label}
+                                                    </Link>
+                                                )}
                                             </li>
                                         ))}
                                     </ul>
@@ -112,7 +147,7 @@ export const Footer = () => {
                 </div>
             </div>
 
-            <div className="border-t border-white/10">
+            <div>
                 <div className="container flex flex-col gap-3 py-5 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
                     <p>© 2026 {BRAND_NAME}. All rights reserved.</p>
                     <p>Modern Hausa media, premium presentation, and fast video-led reporting.</p>

@@ -1,4 +1,4 @@
-# Pantami Times - Robots.txt
+# BASHTV MEDIA - Robots.txt
 # Allow all search engines to crawl the site
 
 User-agent: *

@@ -14,7 +14,7 @@
                     {{-- Header with Logo --}}
                     <tr>
                         <td style="background: linear-gradient(135deg, #1a1f2e 0%, #2d3748 100%); padding: 40px 30px; text-align: center;">
-                            <img src="{{ asset('images/logo.jpg') }}" alt="{{ config('app.name') }}" style="max-width: 120px; height: auto; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+                            <img src="{{ asset('bashTvMedia.jpeg') }}" alt="{{ config('app.name') }}" style="max-width: 120px; height: auto; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
                             <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 700;">{{ config('app.name') }}</h1>
                         </td>
                     </tr>

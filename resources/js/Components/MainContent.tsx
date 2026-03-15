@@ -62,6 +62,7 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
                                     excerpt={story.excerpt}
                                     date={story.published_at ? new Date(story.published_at).toLocaleDateString() : ''}
                                     className="border-white/10 bg-white/8 text-white shadow-none"
+                                    lightText
                                 />
                             ))}
                         </div>

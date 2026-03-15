@@ -1,15 +1,10 @@
-import {
-    Card, 
-    CardContent, 
-    CardDescription, 
-    CardHeader, 
-    CardTitle
-} from "@/Components/ui/card";
-import { Button } from "@/Components/ui/button";
-import { Input } from "@/Components/ui/input";
-import { Label } from "@/Components/ui/label";
-import { Checkbox } from "@/Components/ui/checkbox";
-import { Link, useForm } from "@inertiajs/react";
+import { Button } from '@/Components/ui/button';
+import { Checkbox } from '@/Components/ui/checkbox';
+import { Input } from '@/Components/ui/input';
+import { Label } from '@/Components/ui/label';
+import GuestLayout from '@/Layouts/GuestLayout';
+import { Head, Link, useForm } from '@inertiajs/react';
+import { ArrowRight, LockKeyhole, Mail } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 export default function Login() {
@@ -25,72 +20,96 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <Card className="mx-auto max-w-sm">
-                <CardHeader>
-                    <CardTitle className="text-2xl">Login</CardTitle>
-                    <CardDescription>
-                        Enter your email below to login to your account
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <form onSubmit={submit} className="grid gap-4">
-                        <div className="grid gap-2">
-                            <Label htmlFor="email">Email</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                placeholder="m@example.com"
-                                value={data.email}
-                                onChange={(e) => setData('email', e.target.value)}
-                                required
-                            />
-                            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                        </div>
-                        <div className="grid gap-2">
-                            <div className="flex items-center">
-                                <Label htmlFor="password">Password</Label>
-                                <Link
-                                    href={route('password.request')}
-                                    className="ml-auto inline-block text-sm underline"
-                                >
-                                    Forgot your password?
-                                </Link>
-                            </div>
-                            <Input 
-                                id="password" 
-                                type="password" 
-                                value={data.password}
-                                onChange={(e) => setData('password', e.target.value)}
-                                required 
-                            />
-                            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <Checkbox 
-                                id="remember" 
-                                checked={data.remember}
-                                onCheckedChange={(value) => setData('remember', !!value)}
-                            />
-                            <label
-                                htmlFor="remember"
-                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                            >
-                                Remember me
-                            </label>
-                        </div>
-                        <Button type="submit" className="w-full" disabled={processing}>
-                            Login
-                        </Button>
-                    </form>
-                    <div className="mt-4 text-center text-sm">
-                        Don't have an account?{" "}
-                        <Link href={route('register')} className="underline">
-                            Sign up
+        <GuestLayout>
+            <Head title="Login" />
+
+            <div>
+                <p className="section-heading">Sign In</p>
+                <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                    Welcome back to the BASHTV newsroom.
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                    Log in to manage stories, review submissions, and keep the media desk
+                    moving.
+                </p>
+            </div>
+
+            <form onSubmit={submit} className="mt-8 space-y-5">
+                <div className="space-y-2">
+                    <Label htmlFor="email" className="text-[hsl(var(--BashTv-navy))]">
+                        Email
+                    </Label>
+                    <div className="relative">
+                        <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                            id="email"
+                            type="email"
+                            placeholder="you@bashtvmedia.com"
+                            value={data.email}
+                            onChange={(e) => setData('email', e.target.value)}
+                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11"
+                            required
+                        />
+                    </div>
+                    {errors.email && <p className="text-xs text-red-500">{errors.email}</p>}
+                </div>
+
+                <div className="space-y-2">
+                    <div className="flex items-center justify-between gap-3">
+                        <Label htmlFor="password" className="text-[hsl(var(--BashTv-navy))]">
+                            Password
+                        </Label>
+                        <Link
+                            href={route('password.request')}
+                            className="text-sm font-medium text-accent hover:underline"
+                        >
+                            Forgot password?
                         </Link>
                     </div>
-                </CardContent>
-            </Card>
-        </div>
+                    <div className="relative">
+                        <LockKeyhole className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                            id="password"
+                            type="password"
+                            value={data.password}
+                            onChange={(e) => setData('password', e.target.value)}
+                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11"
+                            required
+                        />
+                    </div>
+                    {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
+                </div>
+
+                <div className="flex items-center gap-3 rounded-[1.25rem] bg-[hsl(var(--BashTv-light))] p-4">
+                    <Checkbox
+                        id="remember"
+                        checked={data.remember}
+                        onCheckedChange={(value) => setData('remember', !!value)}
+                    />
+                    <label
+                        htmlFor="remember"
+                        className="text-sm font-medium text-[hsl(var(--BashTv-navy))]"
+                    >
+                        Keep me signed in on this device
+                    </label>
+                </div>
+
+                <Button
+                    type="submit"
+                    disabled={processing}
+                    className="h-12 w-full rounded-full bg-[hsl(var(--BashTv-navy))] text-white transition hover:bg-accent"
+                >
+                    <span>{processing ? 'Signing in...' : 'Login to Dashboard'}</span>
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+            </form>
+
+            <div className="mt-6 text-center text-sm text-muted-foreground">
+                Don&apos;t have an account?{' '}
+                <Link href={route('register')} className="font-medium text-accent hover:underline">
+                    Sign up
+                </Link>
+            </div>
+        </GuestLayout>
     );
 }

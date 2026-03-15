@@ -27,7 +27,7 @@
   <meta property="og:description"
     content="Modern Hausa news, video reports, interviews, and premium headline coverage.">
   <meta property="og:url" content="{{ url()->current() }}">
-  <meta property="og:image" content="{{ $metaImage ?? asset('images/logo.jpg') }}">
+  <meta property="og:image" content="{{ $metaImage ?? asset('bashTvMedia.jpeg') }}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -38,13 +38,13 @@
   <meta name="twitter:creator" content="@bashtvhausa">
   <meta name="twitter:title" content="{{ config('app.name') }} - Hausa News, Videos, and Reports">
   <meta name="twitter:description" content="Modern Hausa news, video reports, interviews, and premium headline coverage.">
-  <meta name="twitter:image" content="{{ $metaImage ?? asset('images/logo.jpg') }}">
+  <meta name="twitter:image" content="{{ $metaImage ?? asset('bashTvMedia.jpeg') }}">
 
   {{-- Favicon and App Icons --}}
   <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/logo.jpg') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/logo.jpg') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/logo.jpg') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('bashTvMedia.jpeg') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('bashTvMedia.jpeg') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('bashTvMedia.jpeg') }}">
 
   {{-- Theme Color --}}
   <meta name="theme-color" content="#020F3E">
@@ -57,7 +57,7 @@
   <meta property="og:type" content="article">
   <meta property="og:title" content="{{ $metaTitle ?? config('app.name') }}">
   <meta property="og:description" content="{{ $metaDescription ?? '' }}">
-  <meta property="og:image" content="{{ $metaImage ?? asset('images/logo.jpg') }}">
+  <meta property="og:image" content="{{ $metaImage ?? asset('bashTvMedia.jpeg') }}">
   <meta property="og:url" content="{{ url()->current() }}">
   <meta property="og:site_name" content="{{ config('app.name') }}">
   <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}">
@@ -65,10 +65,10 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="{{ $metaTitle ?? config('app.name') }}">
   <meta name="twitter:description" content="{{ $metaDescription ?? '' }}">
-  <meta name="twitter:image" content="{{ $metaImage ?? asset('images/logo.jpg') }}">
+  <meta name="twitter:image" content="{{ $metaImage ?? asset('bashTvMedia.jpeg') }}">
   
-  <meta property="og:image" content="{{ $metaImage ?? asset('images/logo.jpg') }}">
-  <meta name="twitter:image:src" content="{{ $metaImage ?? asset('images/logo.jpg') }}" />
+  <meta property="og:image" content="{{ $metaImage ?? asset('bashTvMedia.jpeg') }}">
+  <meta name="twitter:image:src" content="{{ $metaImage ?? asset('bashTvMedia.jpeg') }}" />
 
   <meta name="msapplication-TileColor" content="#020F3E">
 
@@ -76,8 +76,8 @@
   <link rel="alternate" type="application/rss+xml" title="{{ config('app.name') }} RSS Feed" href="{{ url('/feed') }}">
 
   {{-- Preconnect for Performance --}}
-  <link rel="preconnect" href="https://fonts.bunny.net">
-  <link rel="dns-prefetch" href="https://fonts.bunny.net">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   {{-- Structured Data (JSON-LD) for News Organization --}}
   @verbatim
@@ -89,7 +89,7 @@
       "url": "{{ config('app.url') }}",
       "logo": {
         "@type": "ImageObject",
-        "url": "{{ $metaImage ?? asset('images/logo.jpg') }}",
+        "url": "{{ $metaImage ?? asset('bashTvMedia.jpeg') }}",
         "width": 600,
         "height": 60
       },
@@ -128,9 +128,6 @@
 
 
   <title inertia>{{ config('app.name', 'BASHTV MEDIA') }}</title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
   <!-- Scripts -->
   @routes
