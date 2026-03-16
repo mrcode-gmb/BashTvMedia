@@ -15,37 +15,41 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        User::firstOrCreate(
+            ['email' => 'admin@bashtvmedia.test'],
+            [
+                'name' => 'BASHTV Admin',
+                'password' => bcrypt('password'),
+                'role' => 'admin',
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@pantamitimes.test',
-            'password' => bcrypt('password'),
-            'role' => 'admin',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'viewer@bashtvmedia.test'],
+            [
+                'name' => 'BASHTV Viewer',
+                'password' => bcrypt('password'),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => bcrypt('password'),
-        ]);
+        User::firstOrCreate(
+            ['email' => 'editor@bashtvmedia.test'],
+            [
+                'name' => 'BASHTV Editor',
+                'password' => bcrypt('password'),
+                'role' => 'editor',
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Editor',
-            'email' => 'editor@pantamitimes.test',
-            'password' => bcrypt('password'),
-            'role' => 'editor',
-        ]);
-
-        User::factory()->count(4)->create();
+        if (User::count() < 6) {
+            User::factory()->count(6 - User::count())->create();
+        }
 
         $this->call([
             CategorySeeder::class,
+            SubCategorySeeder::class,
             SettingSeeder::class,
-            // Comment out the original PostSeeder if you want to use ImagePostSeeder instead
-            // PostSeeder::class,
-            ImagePostSeeder::class, // Use this to seed with images from public/images
-            // PostSeeder::class, // Use this to seed with images from public/images
+            ImagePostSeeder::class,
         ]);
     }
 }

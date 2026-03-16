@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="flex items-center gap-3">
                     <Link
                         href="/"
-                        className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-white text-[hsl(var(--BashTv-navy))] shadow-sm transition hover:border-accent hover:text-accent sm:inline-flex"
+                        className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-sm transition hover:border-accent hover:text-accent sm:inline-flex"
                         aria-label="Home"
                     >
                         <Home className="h-5 w-5" />
@@ -114,7 +114,7 @@ export const Header: React.FC<HeaderProps> = ({
                         <button
                             type="button"
                             onClick={() => setSearchOpen((open) => !open)}
-                            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-[hsl(var(--BashTv-navy))] shadow-sm transition hover:border-accent hover:text-accent"
+                            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-sm transition hover:border-accent hover:text-accent"
                             aria-label="Toggle search"
                         >
                             <Search className="h-5 w-5" />
@@ -122,7 +122,7 @@ export const Header: React.FC<HeaderProps> = ({
                         <button
                             type="button"
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-[hsl(var(--BashTv-navy))] shadow-sm transition hover:border-accent hover:text-accent"
+                            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-sm transition hover:border-accent hover:text-accent"
                             aria-label="Toggle theme"
                         >
                             {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
@@ -131,7 +131,7 @@ export const Header: React.FC<HeaderProps> = ({
                 </div>
 
                 {searchOpen && (
-                    <div className="mt-4 rounded-[1.25rem] border border-border bg-white p-3 shadow-[0_16px_35px_-24px_rgba(2,15,62,0.35)]">
+                    <div className="mt-4 rounded-[1.25rem] border border-border bg-card/95 p-3 shadow-[0_16px_35px_-24px_rgba(2,15,62,0.35)]">
                         <form onSubmit={handleSearch} className="flex flex-col gap-3 sm:flex-row">
                             <input
                                 type="text"
@@ -152,7 +152,7 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
             </div>
 
-            <div className="border-t border-border bg-white/88">
+            <div className="border-t border-border bg-card/88">
                 <div className="container flex items-center gap-2 overflow-x-auto py-3 scrollbar-hide">
                     <Link
                         href="/"
@@ -203,7 +203,7 @@ export const Header: React.FC<HeaderProps> = ({
                             <Link
                                 key={subcategory.id}
                                 href={`/category/${activeCategoryItem.slug}/${subcategory.slug}`}
-                                className="inline-flex shrink-0 items-center rounded-full border border-primary/15 bg-white px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-foreground/72 transition hover:border-accent hover:text-accent"
+                                className="inline-flex shrink-0 items-center rounded-full border border-primary/15 bg-card px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-foreground/72 transition hover:border-accent hover:text-accent"
                             >
                                 {subcategory.name}
                             </Link>

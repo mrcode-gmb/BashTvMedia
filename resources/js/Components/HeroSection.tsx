@@ -123,11 +123,11 @@ export const HeroSection = ({ posts }: { posts: Post[] }) => {
             </div>
 
             {latestStories.length > 0 && (
-                <div className="mt-6 rounded-[1.6rem] border border-border bg-white p-5 shadow-[0_16px_40px_-28px_rgba(2,15,62,0.35)]">
+                <div className="mt-6 rounded-[1.6rem] border border-border bg-card/90 p-5 shadow-[0_16px_40px_-28px_rgba(2,15,62,0.35)]">
                     <div className="mb-4 flex items-center justify-between gap-3">
                         <div>
                             <p className="section-heading">Latest From The Desk</p>
-                            <h3 className="mt-2 font-serif text-2xl font-bold text-[hsl(var(--BashTv-navy))]">
+                            <h3 className="mt-2 font-serif text-2xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                 Fast-moving headlines for the homepage rail.
                             </h3>
                         </div>
@@ -135,7 +135,11 @@ export const HeroSection = ({ posts }: { posts: Post[] }) => {
 
                     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                         {latestStories.map((story) => (
-                            <Link key={story.id} href={getPostHref(story)} className="rounded-[1.15rem] border border-border/80 bg-background p-4 transition hover:border-accent/40 hover:bg-white">
+                            <Link
+                                key={story.id}
+                                href={getPostHref(story)}
+                                className="rounded-[1.15rem] border border-border/80 bg-background/90 p-4 transition hover:border-accent/40 hover:bg-accent/5 dark:bg-background/60"
+                            >
                                 <div className="mb-3 flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
                                     <Clock3 className="h-3.5 w-3.5 text-accent" />
                                     <span>

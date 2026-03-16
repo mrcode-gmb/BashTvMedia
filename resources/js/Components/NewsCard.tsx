@@ -32,6 +32,17 @@ export const NewsCard = ({
     lightText = false,
 }: NewsCardProps) => {
     const href = publicId ? route('posts.show.full', publicId) : slug ? route('posts.show.full', slug) : null;
+    const cardClassName = cn(
+        'card-news group block',
+        variant === 'horizontal' && 'flex gap-4 p-4',
+        variant === 'compact' &&
+            (lightText
+                ? 'rounded-[1.15rem] border border-white/10 bg-white/[0.08] p-4 shadow-none'
+                : 'rounded-[1.15rem] border border-border/80 bg-card p-4 shadow-none'),
+        variant === 'default' && 'overflow-hidden',
+        lightText && variant !== 'compact' && 'border-white/10 bg-white/[0.08] text-white shadow-none',
+        className,
+    );
 
     const content = (
         <>
@@ -96,32 +107,11 @@ export const NewsCard = ({
 
     if (href) {
         return (
-            <Link
-                href={href}
-                className={cn(
-                    'card-news group block',
-                    variant === 'horizontal' && 'flex gap-4 p-4',
-                    variant === 'compact' && 'rounded-[1.15rem] border border-border/80 bg-white p-4 shadow-none',
-                    variant === 'default' && 'overflow-hidden',
-                    className,
-                )}
-            >
+            <Link href={href} className={cardClassName}>
                 {content}
             </Link>
         );
     }
 
-    return (
-        <article
-            className={cn(
-                'card-news group block',
-                variant === 'horizontal' && 'flex gap-4 p-4',
-                variant === 'compact' && 'rounded-[1.15rem] border border-border/80 bg-white p-4 shadow-none',
-                variant === 'default' && 'overflow-hidden',
-                className,
-            )}
-        >
-            {content}
-        </article>
-    );
+    return <article className={cardClassName}>{content}</article>;
 };

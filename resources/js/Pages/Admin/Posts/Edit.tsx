@@ -78,7 +78,7 @@ export default function Edit({ post, categories }: { post: Post, categories: Cat
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        submitForm(route('admin.posts.update', post));
+        submitForm(route('admin.posts.update', post.slug));
     };
 
     return (

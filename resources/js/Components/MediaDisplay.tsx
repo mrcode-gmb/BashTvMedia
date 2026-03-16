@@ -82,6 +82,7 @@ export const MediaDisplay = ({
     // 4. Show placeholder
 
     const videoId = videoUrl?.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/)?.[1];
+    const pausedPreviewSrc = image || getYouTubeThumbnail(videoUrl || '', 'hq');
 
     useEffect(() => {
         if (typeof document === 'undefined') return;
@@ -135,7 +136,9 @@ export const MediaDisplay = ({
                     onStateChange: (event: any) => {
                         if (!active) return;
                         const state = event.data;
-                        const isPlayState = state === window.YT.PlayerState.PLAYING;
+                        const isPlayState =
+                            state === window.YT.PlayerState.PLAYING ||
+                            state === window.YT.PlayerState.BUFFERING;
                         setIsPlaying(isPlayState);
                     }
                 }
@@ -244,15 +247,28 @@ export const MediaDisplay = ({
             const showMuted = isMuted || volume === 0;
             return (
                 <div ref={wrapperRef} className={`relative ${className}`}>
-                    <div ref={playerContainerRef} className="w-full h-full absolute inset-0" />
-                    <div className="absolute inset-0 flex flex-col justify-end">
-                        {!isPlaying && (
-                            <div className="flex-1 flex items-center justify-center">
+                    <div ref={playerContainerRef} className="absolute inset-0 h-full w-full" />
+
+                    {!isPlaying && (
+                        <div className="absolute inset-0 z-10 overflow-hidden bg-[hsl(var(--BashTv-navy))]">
+                            {pausedPreviewSrc ? (
+                                <img
+                                    src={pausedPreviewSrc}
+                                    alt={title}
+                                    className="absolute inset-0 h-full w-full object-cover"
+                                />
+                            ) : (
+                                <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--BashTv-navy))] via-black/70 to-accent/30" />
+                            )}
+
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-black/15" />
+
+                            <div className="absolute inset-0 flex items-center justify-center">
                                 <button
                                     type="button"
                                     onClick={handlePlayPause}
-                                    className="w-16 h-16 rounded-full bg-black/60 hover:bg-black/70 transition flex items-center justify-center"
-                                    aria-label="Play video"
+                                    className="flex h-16 w-16 items-center justify-center rounded-full bg-black/60 transition hover:bg-black/70"
+                                    aria-label="Resume video"
                                     disabled={!isReady}
                                 >
                                     <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" fill="currentColor">
@@ -260,8 +276,15 @@ export const MediaDisplay = ({
                                     </svg>
                                 </button>
                             </div>
-                        )}
-                        <div className="bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3">
+
+                            <div className="absolute left-4 top-4 rounded-full bg-black/45 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/90 backdrop-blur-sm">
+                                {currentTime > 0 ? 'Paused' : 'Ready to play'}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="absolute inset-0 z-20 flex flex-col justify-end pointer-events-none">
+                        <div className="pointer-events-auto bg-gradient-to-t from-black/70 via-black/30 to-transparent p-3">
                             <div className="flex items-center gap-2 text-white">
                                 <button
                                     type="button"

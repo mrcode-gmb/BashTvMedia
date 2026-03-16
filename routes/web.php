@@ -66,7 +66,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', DashboardController::class)->name('admin.dashboard');
     Route::resource('users', UserController::class);
     Route::resource('editors', EditorController::class);
-    Route::resource('admin/posts', AdminPostController::class)->names("admin.posts");
+    Route::resource('admin/posts', AdminPostController::class)
+        ->scoped(['post' => 'slug'])
+        ->names("admin.posts");
     Route::resource('admin/categories', CategoryController::class)->names('admin.categories');
     Route::resource('admin/subcategories', SubCategoryController::class)->names('admin.subcategories');
     Route::get('/settings', [SettingController::class, 'index'])->name('admin.settings.index');

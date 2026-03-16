@@ -33,10 +33,12 @@ export function ThemeProvider({ children, defaultTheme = 'system', storageKey = 
     if (theme === 'system') {
       const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       root.classList.add(systemTheme);
+      root.style.colorScheme = systemTheme;
       return;
     }
 
     root.classList.add(theme);
+    root.style.colorScheme = theme;
   }, [theme]);
 
   const value = {

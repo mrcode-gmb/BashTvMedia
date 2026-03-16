@@ -293,159 +293,159 @@ export default function Show({
 
                     <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
                         <article className="lg:col-span-8">
-                            <header
-                                className={`relative mb-8 overflow-hidden rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8 ${mobileFullBleedCard}`}
+                            <div
+                                className={`relative mb-8 overflow-hidden rounded-[2rem] border border-border/70 bg-card/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:border-white/10 dark:bg-card/95 md:p-8 ${mobileFullBleedCard}`}
                             >
-                                <div className="mb-5 flex flex-wrap items-center gap-3">
-                                    <span className="top-news-badge">
-                                        {post.category?.name || 'Top Story'}
-                                    </span>
-                                    {post.video_url && (
-                                        <span className="brand-highlight">Video Report</span>
-                                    )}
-                                </div>
-
-                                <h1 className="font-serif text-4xl font-bold leading-tight text-[hsl(var(--BashTv-navy))] md:text-5xl">
-                                    {post.title}
-                                </h1>
-
-                                {post.excerpt && (
-                                    <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">
-                                        {post.excerpt}
-                                    </p>
-                                )}
-
-                                <div className="mt-6 flex flex-wrap items-center gap-4">
-                                    <div className="flex items-center gap-3 rounded-full border border-border bg-[hsl(var(--BashTv-light))] px-4 py-2">
-                                        {authorAvatar ? (
-                                            <img
-                                                src={authorAvatar}
-                                                alt={post.author?.name}
-                                                className="h-10 w-10 rounded-full object-cover"
-                                            />
-                                        ) : (
-                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
-                                                {post.author?.name?.charAt(0) || 'A'}
-                                            </div>
+                                <header>
+                                    <div className="mb-5 flex flex-wrap items-center gap-3">
+                                        <span className="top-news-badge">
+                                            {post.category?.name || 'Top Story'}
+                                        </span>
+                                        {post.video_url && (
+                                            <span className="brand-highlight">Video Report</span>
                                         )}
-                                        <div>
-                                            <div className="font-medium text-[hsl(var(--BashTv-navy))]">
-                                                {post.author?.name || BRAND_NAME}
+                                    </div>
+
+                                    <h1 className="font-serif text-4xl font-bold leading-tight text-[hsl(var(--BashTv-navy))] dark:text-white md:text-5xl">
+                                        {post.title}
+                                    </h1>
+
+                                    {post.excerpt && (
+                                        <p className="mt-4 max-w-3xl text-base leading-8 text-muted-foreground">
+                                            {post.excerpt}
+                                        </p>
+                                    )}
+
+                                    <div className="mt-6 flex flex-wrap items-center gap-4">
+                                        <div className="flex items-center gap-3 rounded-full border border-border bg-[hsl(var(--BashTv-light))] px-4 py-2 dark:bg-background/60">
+                                            {authorAvatar ? (
+                                                <img
+                                                    src={authorAvatar}
+                                                    alt={post.author?.name}
+                                                    className="h-10 w-10 rounded-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                                    {post.author?.name?.charAt(0) || 'A'}
+                                                </div>
+                                            )}
+                                            <div>
+                                                <div className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
+                                                    {post.author?.name || BRAND_NAME}
+                                                </div>
+                                                <div className="text-xs text-muted-foreground">
+                                                    {format(new Date(publishedDate), 'MMMM d, yyyy')} •{' '}
+                                                    {readingTime} min read
+                                                </div>
                                             </div>
-                                            <div className="text-xs text-muted-foreground">
-                                                {format(new Date(publishedDate), 'MMMM d, yyyy')} •{' '}
-                                                {readingTime} min read
+                                        </div>
+
+                                        <div className="ml-auto flex flex-wrap items-center gap-3">
+                                            <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-4 py-2 text-sm font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
+                                                <Eye className="h-4 w-4 text-primary" />
+                                                {(post.views || 0).toLocaleString()} views
                                             </div>
+
+                                            <DropdownMenu>
+                                                <DropdownMenuTrigger asChild>
+                                                    <button className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] transition hover:border-accent hover:text-accent dark:text-white">
+                                                        <Share2 className="h-4 w-4" />
+                                                        Share
+                                                    </button>
+                                                </DropdownMenuTrigger>
+                                                <DropdownMenuContent align="end" className="w-48">
+                                                    <DropdownMenuItem
+                                                        onClick={() => shareStory('facebook')}
+                                                        className="cursor-pointer"
+                                                    >
+                                                        Share on Facebook
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        onClick={() => shareStory('twitter')}
+                                                        className="cursor-pointer"
+                                                    >
+                                                        Share on Twitter
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        onClick={() => shareStory('whatsapp')}
+                                                        className="cursor-pointer"
+                                                    >
+                                                        Share on WhatsApp
+                                                    </DropdownMenuItem>
+                                                    <DropdownMenuItem
+                                                        onClick={() => shareStory('copy')}
+                                                        className="cursor-pointer"
+                                                    >
+                                                        Copy link
+                                                    </DropdownMenuItem>
+                                                </DropdownMenuContent>
+                                            </DropdownMenu>
+
+                                            <button className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] transition hover:border-accent hover:text-accent dark:text-white">
+                                                <Bookmark className="h-4 w-4" />
+                                                Save
+                                            </button>
                                         </div>
                                     </div>
 
-                                    <div className="ml-auto flex flex-wrap items-center gap-3">
-                                        <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-4 py-2 text-sm font-medium text-[hsl(var(--BashTv-navy))]">
-                                            <Eye className="h-4 w-4 text-primary" />
-                                            {(post.views || 0).toLocaleString()} views
-                                        </div>
-
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <button className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] transition hover:border-accent hover:text-accent">
-                                                    <Share2 className="h-4 w-4" />
-                                                    Share
-                                                </button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end" className="w-48">
-                                                <DropdownMenuItem
-                                                    onClick={() => shareStory('facebook')}
-                                                    className="cursor-pointer"
-                                                >
-                                                    Share on Facebook
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    onClick={() => shareStory('twitter')}
-                                                    className="cursor-pointer"
-                                                >
-                                                    Share on Twitter
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    onClick={() => shareStory('whatsapp')}
-                                                    className="cursor-pointer"
-                                                >
-                                                    Share on WhatsApp
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    onClick={() => shareStory('copy')}
-                                                    className="cursor-pointer"
-                                                >
-                                                    Copy link
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-
-                                        <button className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] transition hover:border-accent hover:text-accent">
-                                            <Bookmark className="h-4 w-4" />
-                                            Save
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="mt-8 overflow-hidden rounded-[1.7rem] bg-[hsl(var(--BashTv-navy))]">
-                                    {post.video_url ? (
-                                        <div className="w-full overflow-hidden">
-                                            <MediaDisplay
-                                                videoUrl={post.video_url}
-                                                title={post.title}
-                                                showVideo
-                                                className="h-0 w-full rounded-[1.7rem] pb-[56.25%]"
-                                            />
-                                        </div>
-                                    ) : post.image ? (
-                                        <div className="h-[500px] overflow-hidden max-md:h-auto">
-                                            <img
-                                                src={post.image}
-                                                alt={post.title}
-                                                className="h-full w-full object-cover max-md:h-[270px]"
-                                                onError={(e) => {
-                                                    const target = e.target as HTMLImageElement;
-                                                    target.src =
-                                                        'https://placehold.co/800x500?text=Image+Not+Found';
-                                                    target.onerror = null;
-                                                }}
-                                            />
-                                        </div>
-                                    ) : null}
-                                </div>
-
-                                {(post.image_caption || post.credit) && (
-                                    <div className="mt-3 flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-                                        <p>{post.image_caption || 'BASHTV MEDIA visual report'}</p>
-                                        {post.credit ? (
-                                            <span className="font-semibold text-[hsl(var(--BashTv-navy))]">
-                                                {post.credit}
-                                            </span>
+                                    <div className="mt-8 overflow-hidden rounded-[1.7rem] bg-[hsl(var(--BashTv-navy))]">
+                                        {post.video_url ? (
+                                            <div className="w-full overflow-hidden">
+                                                <MediaDisplay
+                                                    videoUrl={post.video_url}
+                                                    title={post.title}
+                                                    showVideo
+                                                    className="h-0 w-full rounded-[1.7rem] pb-[56.25%]"
+                                                />
+                                            </div>
+                                        ) : post.image ? (
+                                            <div className="h-[500px] overflow-hidden max-md:h-auto">
+                                                <img
+                                                    src={post.image}
+                                                    alt={post.title}
+                                                    className="h-full w-full object-cover max-md:h-[270px]"
+                                                    onError={(e) => {
+                                                        const target = e.target as HTMLImageElement;
+                                                        target.src =
+                                                            'https://placehold.co/800x500?text=Image+Not+Found';
+                                                        target.onerror = null;
+                                                    }}
+                                                />
+                                            </div>
                                         ) : null}
                                     </div>
-                                )}
-                            </header>
 
-                            <div
-                                className={`rounded-[2rem] border border-white/70 bg-white/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8 ${mobileFullBleedCard}`}
-                            >
-                                <div
-                                    className="[&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-foreground [&_.wmde-markdown]:font-sans [&_.wmde-markdown]:leading-8 [&_.wmde-markdown_blockquote]:border-l-primary [&_.wmde-markdown_hr]:border-border"
-                                    data-color-mode="light"
-                                >
-                                    <MarkdownPreview
-                                        source={normalisedContent}
-                                        style={{
-                                            fontFamily: 'Inter, sans-serif',
-                                            backgroundColor: 'transparent',
-                                            color: 'inherit',
-                                        }}
-                                    />
+                                    {(post.image_caption || post.credit) && (
+                                        <div className="mt-3 flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
+                                            <p>{post.image_caption || 'BASHTV MEDIA visual report'}</p>
+                                            {post.credit ? (
+                                                <span className="font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
+                                                    {post.credit}
+                                                </span>
+                                            ) : null}
+                                        </div>
+                                    )}
+                                </header>
+
+                                <div className="mt-8 border-t border-border/70 pt-8">
+                                    <div
+                                        className="[&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-foreground [&_.wmde-markdown]:font-sans [&_.wmde-markdown]:leading-8 [&_.wmde-markdown_blockquote]:border-l-primary [&_.wmde-markdown_hr]:border-border"
+                                        data-color-mode="light"
+                                    >
+                                        <MarkdownPreview
+                                            source={normalisedContent}
+                                            style={{
+                                                fontFamily: 'Inter, sans-serif',
+                                                backgroundColor: 'transparent',
+                                                color: 'inherit',
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             </div>
 
                             <footer
-                                className={`mt-8 rounded-[1.7rem] border border-white/70 bg-white/90 p-6 shadow-[0_18px_50px_-36px_rgba(2,15,62,0.3)] ${mobileFullBleedCard}`}
+                                className={`mt-8 rounded-[1.7rem] border border-border/70 bg-card/90 p-6 shadow-[0_18px_50px_-36px_rgba(2,15,62,0.3)] dark:border-white/10 dark:bg-card/95 ${mobileFullBleedCard}`}
                             >
                                 <div className="mb-6 flex flex-wrap gap-2">
                                     {post.category && post.category.name && (
@@ -482,9 +482,9 @@ export default function Show({
 
                         <aside className="space-y-8 lg:col-span-4">
                             <div
-                                className={`rounded-[1.8rem] border border-white/70 bg-white/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.3)] ${mobileFullBleedCard}`}
+                                className={`rounded-[1.8rem] border border-border/70 bg-card/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.3)] dark:border-white/10 dark:bg-card/95 ${mobileFullBleedCard}`}
                             >
-                                <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                                <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                     About the Author
                                 </h3>
                                 <div className="mt-4 flex items-start gap-4">
@@ -500,14 +500,14 @@ export default function Show({
                                         </div>
                                     )}
                                     <div>
-                                        <h4 className="font-medium text-[hsl(var(--BashTv-navy))]">
+                                        <h4 className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             {post.author?.name || BRAND_NAME}
                                         </h4>
                                         <p className="mt-2 text-sm leading-7 text-muted-foreground">
                                             {post.author?.bio ||
                                                 'Contributing reporter at BASHTV MEDIA'}
                                         </p>
-                                        <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-border bg-[hsl(var(--BashTv-light))] px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                                        <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-border bg-[hsl(var(--BashTv-light))] px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground dark:bg-background/60">
                                             <UserRound className="h-3.5 w-3.5 text-primary" />
                                             Editorial Desk
                                         </div>
@@ -516,9 +516,9 @@ export default function Show({
                             </div>
 
                             <div
-                                className={`rounded-[1.8rem] border border-primary/15 bg-gradient-to-br from-white via-[hsl(var(--BashTv-light))] to-accent/5 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.3)] ${mobileFullBleedCard}`}
+                                className={`rounded-[1.8rem] border border-primary/15 bg-gradient-to-br from-white via-[hsl(var(--BashTv-light))] to-accent/5 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.3)] dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.92),rgba(2,15,62,0.9),rgba(5,129,247,0.18))] ${mobileFullBleedCard}`}
                             >
-                                <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                                <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                     Stay updated
                                 </h3>
                                 <p className="mt-2 text-sm leading-7 text-muted-foreground">
@@ -532,7 +532,7 @@ export default function Show({
                                         <input
                                             type="email"
                                             id="email"
-                                            className="w-full rounded-full border border-border bg-white px-4 py-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
+                                            className="w-full rounded-full border border-border bg-card px-4 py-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
                                             placeholder="Enter your email"
                                         />
                                     </div>
@@ -547,9 +547,9 @@ export default function Show({
 
                             {trendingPosts && trendingPosts.length > 0 && (
                                 <div
-                                    className={`rounded-[1.8rem] border border-white/70 bg-white/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.3)] ${mobileFullBleedCard}`}
+                                    className={`rounded-[1.8rem] border border-border/70 bg-card/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.3)] dark:border-white/10 dark:bg-card/95 ${mobileFullBleedCard}`}
                                 >
-                                    <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                                    <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         Trending Now
                                     </h3>
                                     <div className="mt-5 space-y-4">
@@ -567,7 +567,7 @@ export default function Show({
                                                     )}
                                                 </div>
                                                 <div className="min-w-0">
-                                                    <h4 className="line-clamp-2 font-medium text-[hsl(var(--BashTv-navy))] transition-colors group-hover:text-accent">
+                                                    <h4 className="line-clamp-2 font-medium text-[hsl(var(--BashTv-navy))] transition-colors group-hover:text-accent dark:text-white">
                                                         <Link
                                                             href={getPostHref(trend)}
                                                             className="hover:underline"
@@ -598,7 +598,7 @@ export default function Show({
                     </div>
 
                     <section className="mt-16">
-                        <h2 className="mb-6 font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))]">
+                        <h2 className="mb-6 font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             {post.category ? `More from ${post.category.name}` : 'Related Articles'}
                         </h2>
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -625,7 +625,7 @@ export default function Show({
                                                     {relatedPost.category.name}
                                                 </div>
                                             )}
-                                            <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] transition-colors group-hover:text-accent">
+                                            <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] transition-colors group-hover:text-accent dark:text-white">
                                                 <Link
                                                     href={getPostHref(relatedPost)}
                                                     className="hover:underline"
@@ -651,7 +651,7 @@ export default function Show({
 
                     <section className="mt-16">
                         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                            <h2 className="font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))]">
+                            <h2 className="font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                 Comments
                             </h2>
                             <Link
@@ -664,7 +664,7 @@ export default function Show({
 
                         <div className="space-y-6">
                             <div
-                                className={`rounded-[1.7rem] border border-border bg-white/90 p-5 shadow-sm ${mobileFullBleedCard}`}
+                                className={`rounded-[1.7rem] border border-border bg-card/90 p-5 shadow-sm dark:bg-card/95 ${mobileFullBleedCard}`}
                             >
                                 <p className="text-sm text-muted-foreground">
                                     <Link
@@ -678,7 +678,7 @@ export default function Show({
                             </div>
 
                             <div
-                                className={`rounded-[1.7rem] border border-dashed border-border bg-white/80 py-10 text-center shadow-sm ${mobileFullBleedCard}`}
+                                className={`rounded-[1.7rem] border border-dashed border-border bg-card/80 py-10 text-center shadow-sm dark:bg-card/95 ${mobileFullBleedCard}`}
                             >
                                 <p className="text-muted-foreground">
                                     No comments yet. Be the first to share your thoughts!

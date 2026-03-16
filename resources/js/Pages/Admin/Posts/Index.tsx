@@ -29,13 +29,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Toaster } from '@/Components/ui/toaster';
 import { useToast } from '@/Components/ui/use-toast';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { CalendarDays, Filter, PenSquare, Trash2 } from 'lucide-react';
+import { CalendarDays, Eye, Filter, PenSquare, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface Post {
     id: number;
     uuid: number;
     title: string;
+    slug?: string;
+    public_id?: string | null;
     status: string;
     author: { name: string };
     category: { name: string };
@@ -88,7 +90,7 @@ export default function Index({
     const confirmDelete = () => {
         if (!postToDelete) return;
 
-        router.delete(route('admin.posts.destroy', postToDelete.id), {
+        router.delete(route('admin.posts.destroy', postToDelete.slug || postToDelete.id), {
             onSuccess: () => {
                 setDeleteDialogOpen(false);
                 setPostToDelete(null);
@@ -204,7 +206,13 @@ export default function Index({
                                     </TableCell>
                                     <TableCell>
                                         <div className="flex justify-end gap-2">
-                                            <Link href={route('admin.posts.edit', post)}>
+                                            <Link href={route('admin.posts.show', post.slug || post.id)}>
+                                                <Button variant="outline" size="sm">
+                                                    <Eye className="mr-2 h-4 w-4" />
+                                                    View
+                                                </Button>
+                                            </Link>
+                                            <Link href={route('admin.posts.edit', post.slug || post.id)}>
                                                 <Button variant="outline" size="sm">
                                                     Review/Edit
                                                 </Button>
@@ -262,7 +270,13 @@ export default function Index({
                                     </div>
 
                                     <div className="flex gap-2 pt-2">
-                                        <Link href={route('admin.posts.edit', post)} className="flex-1">
+                                        <Link href={route('admin.posts.show', post.slug || post.id)} className="flex-1">
+                                            <Button variant="outline" size="sm" className="w-full">
+                                                <Eye className="mr-2 h-4 w-4" />
+                                                View
+                                            </Button>
+                                        </Link>
+                                        <Link href={route('admin.posts.edit', post.slug || post.id)} className="flex-1">
                                             <Button variant="outline" size="sm" className="w-full">
                                                 <PenSquare className="mr-2 h-4 w-4" />
                                                 Review

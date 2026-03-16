@@ -61,7 +61,7 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
                                     videoUrl={story.video_url}
                                     excerpt={story.excerpt}
                                     date={story.published_at ? new Date(story.published_at).toLocaleDateString() : ''}
-                                    className="border-white/10 bg-white/8 text-white shadow-none"
+                                    className="shadow-none"
                                     lightText
                                 />
                             ))}
@@ -72,10 +72,10 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
 
             <section className="container py-6">
                 <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-                    <div className="rounded-[1.6rem] border border-border bg-white p-5 shadow-[0_16px_40px_-28px_rgba(2,15,62,0.35)]">
+                    <div className="rounded-[1.6rem] border border-border bg-card/90 p-5 shadow-[0_16px_40px_-28px_rgba(2,15,62,0.35)]">
                         <div className="mb-5">
                             <p className="section-heading">Across The Desk</p>
-                            <h2 className="mt-2 font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))]">
+                            <h2 className="mt-2 font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                 A clean, modern story grid for BASHTV’s broader coverage.
                             </h2>
                         </div>
@@ -96,31 +96,31 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
                         </div>
                     </div>
 
-                    <aside className="rounded-[1.6rem] border border-primary/15 bg-gradient-to-br from-white via-[hsl(var(--BashTv-light))] to-accent/5 p-6 shadow-[0_16px_40px_-28px_rgba(2,15,62,0.35)]">
+                    <aside className="rounded-[1.6rem] border border-primary/15 bg-[linear-gradient(135deg,rgba(255,255,255,0.95),rgba(248,250,252,0.98),rgba(5,129,247,0.08))] p-6 shadow-[0_16px_40px_-28px_rgba(2,15,62,0.35)] dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.92),rgba(2,15,62,0.9),rgba(5,129,247,0.18))]">
                         <span className="brand-highlight inline-flex">
                             {BRAND_NAME}
                         </span>
-                        <h3 className="mt-4 font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))]">
+                        <h3 className="mt-4 font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             A sharper look for a serious media brand.
                         </h3>
                         <p className="mt-4 text-sm leading-7 text-muted-foreground">
                             The homepage now leans into video, cleaner hierarchy, tighter badges, and a stronger Hausa media identity while keeping the existing post engine intact.
                         </p>
                         <div className="mt-6 grid gap-3">
-                            <div className="rounded-[1rem] border border-border/80 bg-white p-4">
-                                <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))]">
+                            <div className="rounded-[1rem] border border-border/80 bg-card/90 p-4">
+                                <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                     <PlayCircle className="h-4 w-4 text-accent" />
                                     Featured video blocks
                                 </div>
                             </div>
-                            <div className="rounded-[1rem] border border-border/80 bg-white p-4">
-                                <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))]">
+                            <div className="rounded-[1rem] border border-border/80 bg-card/90 p-4">
+                                <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                     <PlayCircle className="h-4 w-4 text-accent" />
                                     Premium BASHTV badges and cards
                                 </div>
                             </div>
-                            <div className="rounded-[1rem] border border-border/80 bg-white p-4">
-                                <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))]">
+                            <div className="rounded-[1rem] border border-border/80 bg-card/90 p-4">
+                                <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                     <PlayCircle className="h-4 w-4 text-accent" />
                                     Mobile-first layout hierarchy
                                 </div>

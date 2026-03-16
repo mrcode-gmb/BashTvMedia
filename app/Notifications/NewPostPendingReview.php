@@ -37,7 +37,7 @@ class NewPostPendingReview extends Notification
      */
     public function toMail(object $notifiable)
     {
-        $url = route('admin.posts.edit', $this->post->id);
+        $url = route('admin.posts.edit', $this->post->slug);
         
         return (new MailMessage)
             ->subject('New Post Pending Review: ' . $this->post->title)

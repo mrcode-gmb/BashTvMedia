@@ -10,9 +10,9 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         $pairs = [
-            'site_name' => 'PantamiTimess',
-            'tagline' => 'News, Analysis, and Exclusive Stories',
-            'accent_color' => '#D4A017',
+            'site_name' => 'BASHTV MEDIA',
+            'tagline' => 'Bold Hausa journalism through video, headlines, and sharp reporting.',
+            'accent_color' => '#D38C28',
             'theme_default' => 'light',
             'allow_editors_to_publish' => 'no',
             'enable_email_notifications' => 'yes',

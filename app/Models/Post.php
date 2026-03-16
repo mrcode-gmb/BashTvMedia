@@ -67,7 +67,7 @@ class Post extends Model
             for ($i = 0; $i < $length; $i++) {
                 $id .= $alphabet[random_int(0, $max)];
             }
-        } while (Post::where('slug', $id)->exists()); // ultra-rare loop
+        } while (Post::where('public_id', $id)->exists()); // ultra-rare loop
 
         return $id;
     }

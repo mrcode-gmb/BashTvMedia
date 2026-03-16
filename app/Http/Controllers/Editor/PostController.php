@@ -86,6 +86,8 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        abort_unless($post->author_id === auth()->id(), 404);
+
         $categories = Category::with(['subcategories' => function($query) {
             $query->select('id', 'category_id', 'name', 'slug')
                 ->orderBy('name');
@@ -129,6 +131,8 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        abort_unless($post->author_id === auth()->id(), 404);
+
         $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:posts,slug,' . $post->id,
@@ -137,7 +141,7 @@ class PostController extends Controller
             'meta_description' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
             'subcategory_id' => 'nullable|exists:subcategories,id',
-            'status' => ['required', Rule::in(['draft', 'pending', 'published', 'archived'])],
+            'status' => ['required', Rule::in(['draft', 'pending', 'published', 'archived', 'rejected'])],
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'video_url' => 'nullable|url',
             'credit'=>'nullable|string',
@@ -159,5 +163,18 @@ class PostController extends Controller
         $post->update($data);
 
         return redirect()->route('editor.posts.index')->with('success', 'Post updated successfully.');
+    }
+
+    public function destroy(Post $post)
+    {
+        abort_unless($post->author_id === auth()->id(), 404);
+
+        if ($post->image && file_exists(public_path($post->image))) {
+            unlink(public_path($post->image));
+        }
+
+        $post->delete();
+
+        return redirect()->route('editor.posts.index')->with('success', 'Post deleted successfully.');
     }
 }

@@ -85,7 +85,7 @@ export default function CategoryShow({
                 <Header categories={categories} activeCategory={category.slug} />
 
                 <main className="container py-8">
-                    <div className="mb-8 overflow-hidden rounded-[2rem] border border-white/70 bg-white/90 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)]">
+                    <div className="mb-8 overflow-hidden rounded-[2rem] border border-border/70 bg-card/90 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:border-white/10 dark:bg-card/95">
                         <div className="grid gap-0 lg:grid-cols-[minmax(0,1.2fr)_360px]">
                             <div className="p-6 md:p-8">
                                 <nav className="mb-6 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
@@ -95,26 +95,26 @@ export default function CategoryShow({
                                     <ChevronRight className="h-3.5 w-3.5" />
                                     <span className="text-foreground/70">Category</span>
                                     <ChevronRight className="h-3.5 w-3.5" />
-                                    <span className="text-[hsl(var(--BashTv-navy))]">
+                                    <span className="text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         {category.name}
                                     </span>
                                 </nav>
 
                                 <div className="mb-6 border-b border-border/80 pb-6">
                                     <span className="top-news-badge">Category Desk</span>
-                                    <h1 className="mt-4 font-serif text-4xl font-bold text-[hsl(var(--BashTv-navy))] md:text-5xl">
+                                    <h1 className="mt-4 font-serif text-4xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white md:text-5xl">
                                         {category.name}
                                     </h1>
                                     <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
                                         {BRAND_SHORT_TAGLINE}
                                     </p>
                                     <div className="mt-5 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                                        <span className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-4 py-2 font-medium text-[hsl(var(--BashTv-navy))]">
+                                        <span className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-4 py-2 font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             <Layers3 className="h-4 w-4 text-primary" />
                                             {posts.total}{' '}
                                             {posts.total === 1 ? 'article' : 'articles'}
                                         </span>
-                                        <span className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/5 px-4 py-2 font-medium text-[hsl(var(--BashTv-navy))]">
+                                        <span className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/5 px-4 py-2 font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             <Radio className="h-4 w-4 text-accent" />
                                             {subcategories.length} subcategory
                                             {subcategories.length === 1 ? '' : 'ies'}
@@ -125,7 +125,7 @@ export default function CategoryShow({
                                 {leadPost && (
                                     <Link
                                         href={getPostHref(leadPost)}
-                                        className="group block overflow-hidden rounded-[1.7rem] border border-border/80 bg-[hsl(var(--BashTv-light))] shadow-[0_18px_50px_-30px_rgba(2,15,62,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_28px_60px_-28px_rgba(2,15,62,0.33)]"
+                                        className="group block overflow-hidden rounded-[1.7rem] border border-border/80 bg-[hsl(var(--BashTv-light))] shadow-[0_18px_50px_-30px_rgba(2,15,62,0.25)] transition hover:-translate-y-0.5 hover:shadow-[0_28px_60px_-28px_rgba(2,15,62,0.33)] dark:border-white/10 dark:bg-background/60"
                                     >
                                         <div className="grid gap-0 md:grid-cols-[280px_minmax(0,1fr)]">
                                             <div className="relative aspect-[16/10] overflow-hidden bg-[hsl(var(--BashTv-navy))] md:aspect-auto">
@@ -149,7 +149,7 @@ export default function CategoryShow({
 
                                             <div className="p-5 md:p-6">
                                                 <p className="section-heading">Lead Coverage</p>
-                                                <h2 className="mt-3 font-serif text-2xl font-bold leading-tight text-[hsl(var(--BashTv-navy))] transition group-hover:text-accent">
+                                                <h2 className="mt-3 font-serif text-2xl font-bold leading-tight text-[hsl(var(--BashTv-navy))] transition group-hover:text-accent dark:text-white">
                                                     {leadPost.title}
                                                 </h2>
                                                 {leadPost.excerpt && (
@@ -213,8 +213,8 @@ export default function CategoryShow({
                     </div>
 
                     {subcategories.length > 0 && (
-                        <div className="mb-8 rounded-[1.7rem] border border-white/70 bg-white/90 p-5 shadow-[0_18px_50px_-36px_rgba(2,15,62,0.3)]">
-                            <h2 className="font-serif text-2xl font-bold text-[hsl(var(--BashTv-navy))]">
+                        <div className="mb-8 rounded-[1.7rem] border border-border/70 bg-card/90 p-5 shadow-[0_18px_50px_-36px_rgba(2,15,62,0.3)] dark:border-white/10 dark:bg-card/95">
+                            <h2 className="font-serif text-2xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                 Browse by Subcategory
                             </h2>
                             <div className="mt-4 flex flex-wrap gap-3">
@@ -228,7 +228,7 @@ export default function CategoryShow({
                                     <Link
                                         key={sub.id}
                                         href={`/category/${category.slug}/${sub.slug}`}
-                                        className="rounded-full border border-border bg-[hsl(var(--BashTv-light))] px-4 py-2 font-medium text-foreground transition hover:border-accent hover:text-accent"
+                                        className="rounded-full border border-border bg-[hsl(var(--BashTv-light))] px-4 py-2 font-medium text-foreground transition hover:border-accent hover:text-accent dark:bg-background/60"
                                     >
                                         {sub.name}
                                         {sub.posts_count !== undefined && (
@@ -330,7 +330,7 @@ export default function CategoryShow({
                                                 link.active
                                                     ? 'border-[hsl(var(--BashTv-navy))] bg-[hsl(var(--BashTv-navy))] text-white'
                                                     : link.url
-                                                      ? 'border-border bg-white text-foreground hover:border-accent hover:text-accent'
+                                                      ? 'border-border bg-card text-foreground hover:border-accent hover:text-accent dark:bg-card/95'
                                                       : 'cursor-not-allowed border-border bg-muted text-muted-foreground'
                                             }`}
                                             dangerouslySetInnerHTML={{ __html: link.label }}
@@ -340,8 +340,8 @@ export default function CategoryShow({
                             )}
                         </>
                     ) : (
-                        <div className="rounded-[1.8rem] border border-dashed border-border bg-white/80 py-14 text-center shadow-sm">
-                            <p className="font-serif text-2xl font-bold text-[hsl(var(--BashTv-navy))]">
+                        <div className="rounded-[1.8rem] border border-dashed border-border bg-card/80 py-14 text-center shadow-sm dark:bg-card/95">
+                            <p className="font-serif text-2xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                 No articles found in this category yet.
                             </p>
                             <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-muted-foreground">

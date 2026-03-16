@@ -4,27 +4,31 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 
 class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $names = [
-                ['name' => 'News', 'slug' => 'news'],
-                ['name' => 'Metro', 'slug' => 'metro'],
-                ['name' => 'Technology', 'slug' => 'technology'],
-                ['name' => 'Science', 'slug' => 'science'],
-                ['name' => 'Health', 'slug' => 'health'],
-                ['name' => 'Sports', 'slug' => 'sports'],
-                ['name' => 'Entertainment', 'slug' => 'entertainment'],
-                ['name' => 'Business', 'slug' => 'business'],
-                ['name' => 'Politics', 'slug' => 'politics'],
+        $categories = [
+            ['name' => 'Headlines', 'slug' => 'headlines', 'priority' => '1'],
+            ['name' => 'Hausa News', 'slug' => 'hausa-news', 'priority' => '2'],
+            ['name' => 'Politics', 'slug' => 'politics', 'priority' => '3'],
+            ['name' => 'Reports', 'slug' => 'reports', 'priority' => '4'],
+            ['name' => 'Interviews', 'slug' => 'interviews', 'priority' => '5'],
+            ['name' => 'Explainers', 'slug' => 'explainers', 'priority' => '6'],
+            ['name' => 'Community Watch', 'slug' => 'community-watch', 'priority' => '7'],
+            ['name' => 'Business', 'slug' => 'business', 'priority' => '8'],
+            ['name' => 'World', 'slug' => 'world', 'priority' => '9'],
+            ['name' => 'Media Watch', 'slug' => 'media-watch', 'priority' => '10'],
         ];
-        foreach ($names as $name) {
-            Category::firstOrCreate(
-                ['slug' => $name['slug']],
-                ['name' => $name['name']]
+
+        foreach ($categories as $category) {
+            Category::updateOrCreate(
+                ['slug' => $category['slug']],
+                [
+                    'name' => $category['name'],
+                    'priority' => $category['priority'],
+                ]
             );
         }
     }

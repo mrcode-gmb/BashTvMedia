@@ -45,7 +45,7 @@ export const FeaturedVideosSection = ({ posts }: { posts: Post[] }) => {
             <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                 <div>
                     <p className="section-heading">Featured Videos</p>
-                    <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] sm:text-4xl">
+                    <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white sm:text-4xl">
                         BashTV’s latest video stories, reports, and on-camera coverage.
                     </h2>
                     <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">

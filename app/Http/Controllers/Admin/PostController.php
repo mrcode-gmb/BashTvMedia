@@ -53,7 +53,11 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return redirect()->route('posts.edit', $post);
+        $post->load(['author', 'category', 'subcategory']);
+
+        return Inertia::render('Admin/Posts/Show', [
+            'post' => $post,
+        ]);
     }
 
     /**
