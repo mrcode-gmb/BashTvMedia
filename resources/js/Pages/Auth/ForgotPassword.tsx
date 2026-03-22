@@ -22,7 +22,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
 
             <div>
                 <p className="section-heading">Recovery</p>
-                <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                     Reset your BASHTV account access.
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">
@@ -32,14 +32,14 @@ export default function ForgotPassword({ status }: { status?: string }) {
             </div>
 
             {status && (
-                <div className="mt-6 rounded-[1.25rem] border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700">
+                <div className="mt-6 rounded-[1.25rem] border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300">
                     {status}
                 </div>
             )}
 
             <form onSubmit={submit} className="mt-8 space-y-5">
                 <div className="space-y-2">
-                    <Label htmlFor="email" className="text-[hsl(var(--BashTv-navy))]">
+                    <Label htmlFor="email" className="text-[hsl(var(--BashTv-navy))] dark:text-white">
                         Email
                     </Label>
                     <div className="relative">
@@ -49,7 +49,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                             type="email"
                             name="email"
                             value={data.email}
-                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11"
+                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11 dark:border-white/10 dark:bg-white/5"
                             autoComplete="username"
                             onChange={(e) => setData('email', e.target.value)}
                             required

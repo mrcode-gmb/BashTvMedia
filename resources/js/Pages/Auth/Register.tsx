@@ -25,7 +25,7 @@ export default function Register() {
 
             <div>
                 <p className="section-heading">Create Account</p>
-                <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                     Set up a BASHTV workspace account.
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">
@@ -36,7 +36,7 @@ export default function Register() {
 
             <form onSubmit={submit} className="mt-8 space-y-5">
                 <div className="space-y-2">
-                    <Label htmlFor="name" className="text-[hsl(var(--BashTv-navy))]">
+                    <Label htmlFor="name" className="text-[hsl(var(--BashTv-navy))] dark:text-white">
                         Full name
                     </Label>
                     <div className="relative">
@@ -46,7 +46,7 @@ export default function Register() {
                             placeholder="BashTV Editor"
                             value={data.name}
                             onChange={(e) => setData('name', e.target.value)}
-                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11"
+                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11 dark:border-white/10 dark:bg-white/5"
                             required
                         />
                     </div>
@@ -54,7 +54,7 @@ export default function Register() {
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="email" className="text-[hsl(var(--BashTv-navy))]">
+                    <Label htmlFor="email" className="text-[hsl(var(--BashTv-navy))] dark:text-white">
                         Email
                     </Label>
                     <div className="relative">
@@ -65,7 +65,7 @@ export default function Register() {
                             placeholder="you@bashtvmedia.com"
                             value={data.email}
                             onChange={(e) => setData('email', e.target.value)}
-                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11"
+                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11 dark:border-white/10 dark:bg-white/5"
                             required
                         />
                     </div>
@@ -73,7 +73,7 @@ export default function Register() {
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="password" className="text-[hsl(var(--BashTv-navy))]">
+                    <Label htmlFor="password" className="text-[hsl(var(--BashTv-navy))] dark:text-white">
                         Password
                     </Label>
                     <div className="relative">
@@ -83,7 +83,7 @@ export default function Register() {
                             type="password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
-                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11"
+                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11 dark:border-white/10 dark:bg-white/5"
                             required
                         />
                     </div>
@@ -93,7 +93,7 @@ export default function Register() {
                 <div className="space-y-2">
                     <Label
                         htmlFor="password_confirmation"
-                        className="text-[hsl(var(--BashTv-navy))]"
+                        className="text-[hsl(var(--BashTv-navy))] dark:text-white"
                     >
                         Confirm password
                     </Label>
@@ -106,7 +106,7 @@ export default function Register() {
                             onChange={(e) =>
                                 setData('password_confirmation', e.target.value)
                             }
-                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11"
+                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11 dark:border-white/10 dark:bg-white/5"
                             required
                         />
                     </div>

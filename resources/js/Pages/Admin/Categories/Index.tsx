@@ -40,11 +40,11 @@ export default function Index({ categories }: { categories: PaginatedCategories 
         <AdminLayout header="Categories">
             <Head title="Category Management" />
 
-            <section className="rounded-[2rem] bg-white/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8">
+            <section className="rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:bg-slate-950/[0.88] md:p-8">
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                     <div>
                         <p className="section-heading">Structure</p>
-                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             Category Management
                         </h2>
                         <p className="mt-3 max-w-3xl text-sm leading-8 text-muted-foreground">
@@ -62,10 +62,10 @@ export default function Index({ categories }: { categories: PaginatedCategories 
                 </div>
             </section>
 
-            <section className="mt-8 rounded-[2rem] bg-white/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)]">
+            <section className="mt-8 rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] dark:bg-slate-950/[0.88]">
                 <div className="mb-6">
                     <p className="section-heading">Directory</p>
-                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                         All Categories
                     </h3>
                 </div>
@@ -83,7 +83,7 @@ export default function Index({ categories }: { categories: PaginatedCategories 
                         <TableBody>
                             {categories.data.map((category) => (
                                 <TableRow key={category.id}>
-                                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))]">
+                                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         {category.name}
                                     </TableCell>
                                     <TableCell>{category.posts_count}</TableCell>
@@ -111,32 +111,32 @@ export default function Index({ categories }: { categories: PaginatedCategories 
                     {categories.data.map((category) => (
                         <Card
                             key={category.id}
-                            className="overflow-hidden rounded-[1.5rem] border-0 bg-[hsl(var(--BashTv-light))]/85 shadow-none"
+                            className="overflow-hidden rounded-[1.5rem] border-0 bg-[hsl(var(--BashTv-light))]/85 shadow-none dark:bg-white/5"
                         >
                             <CardContent className="p-4">
                                 <div className="space-y-4">
                                     <div>
-                                        <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                                        <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             {category.name}
                                         </h3>
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-3 text-sm">
-                                        <div className="rounded-[1.2rem] bg-white p-3">
+                                        <div className="rounded-[1.2rem] bg-white p-3 dark:bg-white/5">
                                             <div className="flex items-center gap-2 text-muted-foreground">
                                                 <FolderKanban className="h-4 w-4 text-primary" />
                                                 Posts
                                             </div>
-                                            <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))]">
+                                            <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                                 {category.posts_count}
                                             </p>
                                         </div>
-                                        <div className="rounded-[1.2rem] bg-white p-3">
+                                        <div className="rounded-[1.2rem] bg-white p-3 dark:bg-white/5">
                                             <div className="flex items-center gap-2 text-muted-foreground">
                                                 <Hash className="h-4 w-4 text-accent" />
                                                 Priority
                                             </div>
-                                            <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))]">
+                                            <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                                 {category.priority}
                                             </p>
                                         </div>

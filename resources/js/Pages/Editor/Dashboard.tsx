@@ -97,7 +97,7 @@ export default function Dashboard({
                             </Link>
                             <Link
                                 href={route('editor.posts.index', { status: 'pending' })}
-                                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/18 bg-white/8 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/12"
+                                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/18 bg-white/[0.08] px-5 py-3 text-sm font-medium text-white transition hover:bg-white/[0.12]"
                             >
                                 Review Pending Queue
                                 <ArrowUpRight className="h-4 w-4" />

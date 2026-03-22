@@ -78,11 +78,11 @@ export default function Dashboard({ stats }: { stats: Stats }) {
         <AdminLayout header="Dashboard">
             <Head title="Admin Dashboard" />
 
-            <section className="overflow-hidden rounded-[2rem] bg-white/90 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)]">
+            <section className="overflow-hidden rounded-[2rem] bg-white/[0.90] shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:bg-slate-950/[0.88]">
                 <div className="grid gap-0 xl:grid-cols-[minmax(0,1.25fr)_360px]">
                     <div className="p-6 md:p-8">
                         <p className="section-heading">Control Room</p>
-                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))] md:text-4xl">
+                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white md:text-4xl">
                             Keep the BASHTV newsroom sharp, fast, and organized.
                         </h2>
                         <p className="mt-4 max-w-3xl text-sm leading-8 text-muted-foreground md:text-base">
@@ -97,7 +97,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                                 return (
                                     <div
                                         key={card.label}
-                                        className="rounded-[1.5rem] bg-[hsl(var(--BashTv-light))]/80 p-5 shadow-[0_16px_40px_-30px_rgba(2,15,62,0.25)]"
+                                        className="rounded-[1.5rem] bg-[hsl(var(--BashTv-light))]/80 p-5 shadow-[0_16px_40px_-30px_rgba(2,15,62,0.25)] dark:bg-white/5"
                                     >
                                         <div className="flex items-center justify-between">
                                             <p className="text-sm font-medium text-muted-foreground">
@@ -105,7 +105,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                                             </p>
                                             <Icon className={`h-5 w-5 ${card.accent}`} />
                                         </div>
-                                        <p className="mt-4 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                                        <p className="mt-4 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             {card.value}
                                         </p>
                                     </div>
@@ -126,7 +126,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                             hierarchy, clearer actions, and a more branded editorial feel.
                         </p>
 
-                        <div className="mt-6 rounded-[1.5rem] bg-white/6 p-5">
+                        <div className="mt-6 rounded-[1.5rem] bg-white/[0.06] p-5">
                             <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/55">
                                 <LineChart className="h-4 w-4 text-[hsl(var(--BashTv-light-gold))]" />
                                 Publishing Health
@@ -146,7 +146,7 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                 <div className="mb-5 flex items-center justify-between gap-4">
                     <div>
                         <p className="section-heading">Quick Actions</p>
-                        <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             Move the newsroom forward.
                         </h3>
                     </div>
@@ -157,9 +157,9 @@ export default function Dashboard({ stats }: { stats: Stats }) {
                         <Link
                             key={action.label}
                             href={action.href}
-                            className="rounded-[1.6rem] bg-white/90 p-5 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] transition hover:-translate-y-0.5"
+                            className="rounded-[1.6rem] bg-white/[0.90] p-5 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] transition hover:-translate-y-0.5 dark:bg-slate-950/[0.88]"
                         >
-                            <p className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                            <p className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                 {action.label}
                             </p>
                             <p className="mt-3 text-sm leading-7 text-muted-foreground">

@@ -29,7 +29,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Toaster } from '@/Components/ui/toaster';
 import { useToast } from '@/Components/ui/use-toast';
 import { Head, Link, router, usePage } from '@inertiajs/react';
-import { CalendarDays, Eye, Filter, PenSquare, Trash2 } from 'lucide-react';
+import { ArrowRight, CalendarDays, Eye, Filter, PenSquare, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface Post {
@@ -130,11 +130,11 @@ export default function Index({
         <AdminLayout header="Posts">
             <Head title="Post Management" />
 
-            <section className="rounded-[2rem] bg-white/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8">
+            <section className="rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:bg-slate-950/[0.88] md:p-8">
                 <div className="flex flex-col gap-5 xl:flex-row xl:items-end xl:justify-between">
                     <div>
                         <p className="section-heading">Publishing Queue</p>
-                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             Post Management
                         </h2>
                         <p className="mt-3 max-w-3xl text-sm leading-8 text-muted-foreground">
@@ -143,32 +143,41 @@ export default function Index({
                         </p>
                     </div>
 
-                    <div className="w-full max-w-xs">
-                        <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                            Filter by Status
-                        </p>
-                        <Select onValueChange={filterByStatus} value={filters.status || 'all'}>
-                            <SelectTrigger className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))]">
-                                <Filter className="mr-2 h-4 w-4 text-accent" />
-                                <SelectValue placeholder="Filter by status" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All</SelectItem>
-                                <SelectItem value="draft">Draft</SelectItem>
-                                <SelectItem value="pending">Pending</SelectItem>
-                                <SelectItem value="published">Published</SelectItem>
-                                <SelectItem value="archived">Archived</SelectItem>
-                            </SelectContent>
-                        </Select>
+                    <div className="flex w-full flex-col gap-4 xl:max-w-sm">
+                        <Link href={route('admin.posts.create')}>
+                            <Button className="h-12 w-full rounded-full bg-[hsl(var(--BashTv-navy))] px-6 text-white hover:bg-accent">
+                                Create Post
+                                <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </Link>
+
+                        <div>
+                            <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                                Filter by Status
+                            </p>
+                            <Select onValueChange={filterByStatus} value={filters.status || 'all'}>
+                                <SelectTrigger className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] dark:border-white/10 dark:bg-white/5">
+                                    <Filter className="mr-2 h-4 w-4 text-accent" />
+                                    <SelectValue placeholder="Filter by status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">All</SelectItem>
+                                    <SelectItem value="draft">Draft</SelectItem>
+                                    <SelectItem value="pending">Pending</SelectItem>
+                                    <SelectItem value="published">Published</SelectItem>
+                                    <SelectItem value="archived">Archived</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <section className="mt-8 rounded-[2rem] bg-white/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)]">
+            <section className="mt-8 rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] dark:bg-slate-950/[0.88]">
                 <div className="mb-6 flex items-center justify-between gap-4">
                     <div>
                         <p className="section-heading">Archive</p>
-                        <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             All Posts
                         </h3>
                     </div>
@@ -189,7 +198,7 @@ export default function Index({
                         <TableBody>
                             {posts.data.map((post) => (
                                 <TableRow key={post.id}>
-                                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))]">
+                                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         {post.title}
                                     </TableCell>
                                     <TableCell>
@@ -236,7 +245,7 @@ export default function Index({
                     {posts.data.map((post) => (
                         <Card
                             key={post.id}
-                            className="overflow-hidden rounded-[1.5rem] border-0 bg-[hsl(var(--BashTv-light))]/85 shadow-none"
+                            className="overflow-hidden rounded-[1.5rem] border-0 bg-[hsl(var(--BashTv-light))]/85 shadow-none dark:bg-white/5"
                         >
                             <CardContent className="p-4">
                                 <div className="space-y-4">
@@ -246,7 +255,7 @@ export default function Index({
                                                 {post.status}
                                             </Badge>
                                         </div>
-                                        <h3 className="mt-3 font-serif text-lg font-semibold text-[hsl(var(--BashTv-navy))]">
+                                        <h3 className="mt-3 font-serif text-lg font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             {post.title}
                                         </h3>
                                     </div>

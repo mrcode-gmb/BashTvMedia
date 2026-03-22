@@ -44,11 +44,11 @@ export default function Index({ users }: { users: PaginatedUsers }) {
         <AdminLayout header="Users">
             <Head title="Users" />
 
-            <section className="rounded-[2rem] bg-white/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8">
+            <section className="rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:bg-slate-950/[0.88] md:p-8">
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                     <div>
                         <p className="section-heading">Accounts</p>
-                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             User Management
                         </h2>
                         <p className="mt-3 max-w-3xl text-sm leading-8 text-muted-foreground">
@@ -66,10 +66,10 @@ export default function Index({ users }: { users: PaginatedUsers }) {
                 </div>
             </section>
 
-            <section className="mt-8 rounded-[2rem] bg-white/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)]">
+            <section className="mt-8 rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] dark:bg-slate-950/[0.88]">
                 <div className="mb-6">
                     <p className="section-heading">Directory</p>
-                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                         All Users
                     </h3>
                 </div>
@@ -87,7 +87,7 @@ export default function Index({ users }: { users: PaginatedUsers }) {
                         <TableBody>
                             {users.data.map((user) => (
                                 <TableRow key={user.id}>
-                                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))]">
+                                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         {user.name}
                                     </TableCell>
                                     <TableCell>{user.email}</TableCell>
@@ -115,21 +115,21 @@ export default function Index({ users }: { users: PaginatedUsers }) {
                     {users.data.map((user) => (
                         <Card
                             key={user.id}
-                            className="overflow-hidden rounded-[1.5rem] border-0 bg-[hsl(var(--BashTv-light))]/85 shadow-none"
+                            className="overflow-hidden rounded-[1.5rem] border-0 bg-[hsl(var(--BashTv-light))]/85 shadow-none dark:bg-white/5"
                         >
                             <CardContent className="p-4">
                                 <div className="space-y-4">
                                     <div>
-                                        <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                                        <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             {user.name}
                                         </h3>
-                                        <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-[hsl(var(--BashTv-navy))]">
+                                        <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-[hsl(var(--BashTv-navy))] dark:bg-primary/15 dark:text-white">
                                             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
                                             {user.role}
                                         </div>
                                     </div>
 
-                                    <div className="rounded-[1.2rem] bg-white p-4">
+                                    <div className="rounded-[1.2rem] bg-white p-4 dark:bg-white/5">
                                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                             <Mail className="h-4 w-4 text-accent" />
                                             {user.email}

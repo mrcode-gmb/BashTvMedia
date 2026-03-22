@@ -1,13 +1,31 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
+import { ThemeProvider, useTheme } from '@/Components/ThemeProvider';
+import { Button } from '@/Components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/Components/ui/dropdown-menu';
 import { BRAND_NAME, BRAND_SHORT_TAGLINE, BRAND_TAGLINE } from '@/lib/brand';
 import { Link } from '@inertiajs/react';
-import { ArrowUpRight, PlayCircle, Radio, ShieldCheck } from 'lucide-react';
+import { ArrowUpRight, Moon, PlayCircle, Radio, ShieldCheck, Sun } from 'lucide-react';
 import { PropsWithChildren } from 'react';
 
 export default function GuestLayout({ children }: PropsWithChildren) {
     return (
-        <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(5,129,247,0.14),transparent_24%),radial-gradient(circle_at_bottom_right,rgba(4,201,252,0.12),transparent_24%),#f8fafc] p-4 md:p-6">
-            <div className="mx-auto grid min-h-[calc(100vh-2rem)] max-w-6xl overflow-hidden rounded-[2rem] bg-white/75 shadow-[0_32px_100px_-46px_rgba(2,15,62,0.45)] backdrop-blur lg:grid-cols-[minmax(0,1.08fr)_460px]">
+        <ThemeProvider defaultTheme="system" storageKey="admin-ui-theme">
+            <GuestShell>{children}</GuestShell>
+        </ThemeProvider>
+    );
+}
+
+function GuestShell({ children }: PropsWithChildren) {
+    const { setTheme } = useTheme();
+
+    return (
+        <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(5,129,247,0.14),transparent_24%),radial-gradient(circle_at_bottom_right,rgba(4,201,252,0.12),transparent_24%),#f8fafc] p-4 text-foreground transition-colors md:p-6 dark:bg-[radial-gradient(circle_at_top_left,rgba(5,129,247,0.14),transparent_20%),radial-gradient(circle_at_bottom_right,rgba(4,201,252,0.12),transparent_20%),#020617]">
+            <div className="mx-auto grid min-h-[calc(100vh-2rem)] max-w-6xl overflow-hidden rounded-[2rem] border border-white/60 bg-white/[0.75] shadow-[0_32px_100px_-46px_rgba(2,15,62,0.45)] backdrop-blur lg:grid-cols-[minmax(0,1.08fr)_460px] dark:border-white/10 dark:bg-slate-950/[0.72]">
                 <section className="relative flex flex-col justify-between overflow-hidden bg-[linear-gradient(165deg,rgba(2,15,62,0.98),rgba(5,129,247,0.92))] p-6 text-white sm:p-8 lg:p-10">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(248,199,96,0.18),transparent_18%),radial-gradient(circle_at_bottom_left,rgba(4,201,252,0.12),transparent_24%)]" />
 
@@ -37,7 +55,7 @@ export default function GuestLayout({ children }: PropsWithChildren) {
                         </div>
 
                         <div className="mt-10 grid gap-4 sm:grid-cols-3">
-                            <div className="rounded-[1.5rem] bg-white/7 p-4">
+                            <div className="rounded-[1.5rem] bg-white/[0.07] p-4">
                                 <Radio className="h-5 w-5 text-[hsl(var(--BashTv-light-gold))]" />
                                 <p className="mt-4 text-xs font-medium uppercase tracking-[0.2em] text-white/55">
                                     Live Desk
@@ -46,7 +64,7 @@ export default function GuestLayout({ children }: PropsWithChildren) {
                                     Fast entry for editors, admins, and newsroom staff.
                                 </p>
                             </div>
-                            <div className="rounded-[1.5rem] bg-white/7 p-4">
+                            <div className="rounded-[1.5rem] bg-white/[0.07] p-4">
                                 <PlayCircle className="h-5 w-5 text-[hsl(var(--BashTv-cyan))]" />
                                 <p className="mt-4 text-xs font-medium uppercase tracking-[0.2em] text-white/55">
                                     Video First
@@ -55,7 +73,7 @@ export default function GuestLayout({ children }: PropsWithChildren) {
                                     A media-ready control point for BASHTV reporting.
                                 </p>
                             </div>
-                            <div className="rounded-[1.5rem] bg-white/7 p-4">
+                            <div className="rounded-[1.5rem] bg-white/[0.07] p-4">
                                 <ShieldCheck className="h-5 w-5 text-[hsl(var(--BashTv-light-gold))]" />
                                 <p className="mt-4 text-xs font-medium uppercase tracking-[0.2em] text-white/55">
                                     Secure Access
@@ -76,7 +94,7 @@ export default function GuestLayout({ children }: PropsWithChildren) {
                         </div>
                         <Link
                             href="/"
-                            className="inline-flex items-center gap-2 self-start rounded-full bg-white/8 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/12"
+                            className="inline-flex items-center gap-2 self-start rounded-full bg-white/[0.08] px-5 py-3 text-sm font-medium text-white transition hover:bg-white/[0.12]"
                         >
                             Visit Homepage
                             <ArrowUpRight className="h-4 w-4" />
@@ -84,8 +102,33 @@ export default function GuestLayout({ children }: PropsWithChildren) {
                     </div>
                 </section>
 
-                <section className="flex items-center bg-white/92 p-5 sm:p-8">
-                    <div className="mx-auto w-full max-w-md">{children}</div>
+                <section className="flex items-center bg-white/[0.92] p-5 transition-colors sm:p-8 dark:bg-slate-950/[0.88]">
+                    <div className="mx-auto w-full max-w-md">
+                        <div className="mb-8 flex items-center justify-end">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="outline" size="icon" className="rounded-full">
+                                        <Sun className="h-[1.1rem] w-[1.1rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                                        <Moon className="absolute h-[1.1rem] w-[1.1rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                                        <span className="sr-only">Toggle theme</span>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end">
+                                    <DropdownMenuItem onClick={() => setTheme('light')}>
+                                        Light
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setTheme('dark')}>
+                                        Dark
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => setTheme('system')}>
+                                        System
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
+
+                        {children}
+                    </div>
                 </section>
             </div>
         </div>

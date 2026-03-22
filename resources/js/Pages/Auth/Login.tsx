@@ -25,7 +25,7 @@ export default function Login() {
 
             <div>
                 <p className="section-heading">Sign In</p>
-                <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                     Welcome back to the BASHTV newsroom.
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">
@@ -36,7 +36,7 @@ export default function Login() {
 
             <form onSubmit={submit} className="mt-8 space-y-5">
                 <div className="space-y-2">
-                    <Label htmlFor="email" className="text-[hsl(var(--BashTv-navy))]">
+                    <Label htmlFor="email" className="text-[hsl(var(--BashTv-navy))] dark:text-white">
                         Email
                     </Label>
                     <div className="relative">
@@ -47,7 +47,7 @@ export default function Login() {
                             placeholder="you@bashtvmedia.com"
                             value={data.email}
                             onChange={(e) => setData('email', e.target.value)}
-                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11"
+                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11 dark:border-white/10 dark:bg-white/5"
                             required
                         />
                     </div>
@@ -56,7 +56,7 @@ export default function Login() {
 
                 <div className="space-y-2">
                     <div className="flex items-center justify-between gap-3">
-                        <Label htmlFor="password" className="text-[hsl(var(--BashTv-navy))]">
+                        <Label htmlFor="password" className="text-[hsl(var(--BashTv-navy))] dark:text-white">
                             Password
                         </Label>
                         <Link
@@ -73,14 +73,14 @@ export default function Login() {
                             type="password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
-                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11"
+                            className="h-12 rounded-full border-border bg-[hsl(var(--BashTv-light))] pl-11 dark:border-white/10 dark:bg-white/5"
                             required
                         />
                     </div>
                     {errors.password && <p className="text-xs text-red-500">{errors.password}</p>}
                 </div>
 
-                <div className="flex items-center gap-3 rounded-[1.25rem] bg-[hsl(var(--BashTv-light))] p-4">
+                <div className="flex items-center gap-3 rounded-[1.25rem] bg-[hsl(var(--BashTv-light))] p-4 dark:bg-white/5">
                     <Checkbox
                         id="remember"
                         checked={data.remember}
@@ -88,7 +88,7 @@ export default function Login() {
                     />
                     <label
                         htmlFor="remember"
-                        className="text-sm font-medium text-[hsl(var(--BashTv-navy))]"
+                        className="text-sm font-medium text-[hsl(var(--BashTv-navy))] dark:text-white"
                     >
                         Keep me signed in on this device
                     </label>

@@ -18,7 +18,7 @@ export default function Index({
             columns: ['Title', 'Views'],
             render: (post: any) => (
                 <TableRow key={post.id}>
-                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))]">
+                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                         {post.title}
                     </TableCell>
                     <TableCell>{post.views}</TableCell>
@@ -33,7 +33,7 @@ export default function Index({
             columns: ['Category', 'Posts'],
             render: (category: any) => (
                 <TableRow key={category.id}>
-                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))]">
+                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                         {category.name}
                     </TableCell>
                     <TableCell>{category.posts_count}</TableCell>
@@ -48,7 +48,7 @@ export default function Index({
             columns: ['Editor', 'Posts'],
             render: (editor: any) => (
                 <TableRow key={editor.id}>
-                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))]">
+                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                         {editor.name}
                     </TableCell>
                     <TableCell>{editor.posts_count}</TableCell>
@@ -61,11 +61,11 @@ export default function Index({
         <AdminLayout header="Reports & Analytics">
             <Head title="Reports & Analytics" />
 
-            <section className="rounded-[2rem] bg-white/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8">
+            <section className="rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:bg-slate-950/[0.88] md:p-8">
                 <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
                     <div>
                         <p className="section-heading">Reports</p>
-                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             Reports & Analytics
                         </h2>
                         <p className="mt-3 max-w-3xl text-sm leading-8 text-muted-foreground">
@@ -74,8 +74,8 @@ export default function Index({
                         </p>
                     </div>
 
-                    <div className="rounded-[1.4rem] bg-primary/5 px-5 py-4">
-                        <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-[hsl(var(--BashTv-navy))]">
+                    <div className="rounded-[1.4rem] bg-primary/5 px-5 py-4 dark:bg-primary/15">
+                        <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-[hsl(var(--BashTv-navy))] dark:text-white">
                             <Radio className="h-4 w-4 text-accent" />
                             Editorial Signals
                         </div>
@@ -93,11 +93,11 @@ export default function Index({
                     return (
                         <Card
                             key={section.title}
-                            className="rounded-[1.8rem] border-0 bg-white/90 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)]"
+                            className="rounded-[1.8rem] border-0 bg-white/[0.90] shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] dark:bg-slate-950/[0.88]"
                         >
                             <CardHeader className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                                 <div>
-                                    <CardTitle className="font-serif text-2xl text-[hsl(var(--BashTv-navy))]">
+                                    <CardTitle className="font-serif text-2xl text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         {section.title}
                                     </CardTitle>
                                     <p className="mt-2 text-sm leading-7 text-muted-foreground">

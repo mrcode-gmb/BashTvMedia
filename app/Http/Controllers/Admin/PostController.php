@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -35,8 +36,14 @@ class PostController extends Controller
      */
     public function create()
     {
-        // Posts are created by editors, not admins directly in this workflow.
-        return redirect()->route('admin.posts.index');
+        $categories = Category::with(['subcategories' => function($query) {
+            $query->select('id', 'category_id', 'name', 'slug')
+                ->orderBy('name');
+        }])->get();
+
+        return Inertia::render('Admin/Posts/Create', [
+            'categories' => $categories,
+        ]);
     }
 
     /**
@@ -44,8 +51,39 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // Posts are created by editors.
-        return redirect()->route('admin.posts.index');
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:posts,slug',
+            'content' => 'required|string',
+            'meta_title' => 'nullable|string|max:255',
+            'meta_description' => 'nullable|string',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'nullable|exists:subcategories,id',
+            'status' => ['required', Rule::in(['draft', 'pending', 'published'])],
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'video_url' => 'nullable|url',
+            'credit' => 'nullable|string',
+        ]);
+
+        $data = $request->except('image');
+        $data['author_id'] = auth()->id();
+        $data['slug'] = Str::slug($request->slug ?: $request->title);
+        $data['published_at'] = $request->status === 'published' ? now() : null;
+
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $data['image'] = '/images/'.$imageName;
+        }
+
+        Post::create($data);
+
+        return redirect()->route('admin.posts.index')->with(
+            'success',
+            $request->status === 'published'
+                ? 'Post created and published successfully.'
+                : 'Post created successfully.'
+        );
     }
 
     /**

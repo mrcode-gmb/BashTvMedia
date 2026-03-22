@@ -65,7 +65,7 @@ function LayoutContent({ children, header }: EditorLayoutProps) {
         `group flex items-center gap-3 rounded-[1.1rem] px-4 py-3 text-sm font-medium transition ${
             active
                 ? 'bg-white text-[hsl(var(--BashTv-navy))] shadow-[0_16px_40px_-24px_rgba(2,15,62,0.45)]'
-                : 'text-white/72 hover:bg-white/8 hover:text-white'
+                : 'text-white/72 hover:bg-white/[0.08] hover:text-white'
         }`;
 
     const renderNavigation = () => (
@@ -108,7 +108,7 @@ function LayoutContent({ children, header }: EditorLayoutProps) {
             </div>
 
             <div className="flex-1 overflow-y-auto px-4 py-5">
-                <div className="rounded-[1.6rem] bg-white/6 p-5">
+                <div className="rounded-[1.6rem] bg-white/[0.06] p-5">
                     <p className="text-xs font-medium uppercase tracking-[0.24em] text-[hsl(var(--BashTv-light-gold))]">
                         Signed In
                     </p>
@@ -152,7 +152,7 @@ function LayoutContent({ children, header }: EditorLayoutProps) {
                 </aside>
 
                 <div className="flex min-h-screen flex-col">
-                    <header className="sticky top-0 z-40 bg-white/88 backdrop-blur dark:bg-slate-950/82">
+                    <header className="sticky top-0 z-40 bg-white/[0.88] backdrop-blur dark:bg-slate-950/[0.82]">
                         <div className="flex items-center gap-3 px-4 py-4 lg:px-6">
                             <Sheet>
                                 <div className="md:hidden">

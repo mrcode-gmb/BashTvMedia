@@ -98,18 +98,22 @@ export default function Show({ post }: { post: Post }) {
         Math.ceil(stripMarkdown(post.content || '').split(' ').filter(Boolean).length / 220),
     );
     const mediaImage = post.image || getThumbnail(post.video_url);
+    const markdownColorMode =
+        typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+            ? 'dark'
+            : 'light';
 
     return (
         <AdminLayout header="View Post">
             <Head title={`View Post - ${post.title}`} />
 
-            <section className="rounded-[2rem] bg-white/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8">
+            <section className="rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:bg-slate-950/[0.88] md:p-8">
                 <div className="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
                     <div className="max-w-4xl">
                         <div className="flex flex-wrap items-center gap-3">
                             <Badge variant={statusTone(post.status)}>{post.status}</Badge>
                             {post.category?.name && (
-                                <span className="inline-flex items-center rounded-full bg-[hsl(var(--BashTv-light))] px-3 py-1 text-xs font-medium text-[hsl(var(--BashTv-navy))]">
+                                <span className="inline-flex items-center rounded-full bg-[hsl(var(--BashTv-light))] px-3 py-1 text-xs font-medium text-[hsl(var(--BashTv-navy))] dark:bg-white/10 dark:text-white">
                                     {post.category.name}
                                 </span>
                             )}
@@ -121,7 +125,7 @@ export default function Show({ post }: { post: Post }) {
                         </div>
 
                         <p className="section-heading mt-5">Editorial Preview</p>
-                        <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-[hsl(var(--BashTv-navy))] md:text-4xl">
+                        <h2 className="mt-3 font-serif text-3xl font-semibold leading-tight text-[hsl(var(--BashTv-navy))] dark:text-white md:text-4xl">
                             {post.title}
                         </h2>
 
@@ -172,7 +176,7 @@ export default function Show({ post }: { post: Post }) {
                         <Link href={getPublicPostHref(post)} target="_blank">
                             <Button
                                 variant="outline"
-                                className="w-full justify-center rounded-full border-primary/20 bg-primary/5 text-[hsl(var(--BashTv-navy))] hover:bg-primary/10"
+                                className="w-full justify-center rounded-full border-primary/20 bg-primary/5 text-[hsl(var(--BashTv-navy))] hover:bg-primary/10 dark:bg-primary/15 dark:text-white"
                             >
                                 Open Live Post
                                 <ArrowUpRight className="ml-2 h-4 w-4" />
@@ -184,7 +188,7 @@ export default function Show({ post }: { post: Post }) {
 
             <div className="mt-8 grid grid-cols-1 gap-8 xl:grid-cols-12">
                 <section className="xl:col-span-8">
-                    <article className="overflow-hidden rounded-[2rem] bg-white/90 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)]">
+                    <article className="overflow-hidden rounded-[2rem] bg-white/[0.90] shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:bg-slate-950/[0.88]">
                         {mediaImage ? (
                             <div className="overflow-hidden bg-[hsl(var(--BashTv-navy))]">
                                 {post.video_url ? (
@@ -211,13 +215,13 @@ export default function Show({ post }: { post: Post }) {
                             <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/70 pb-5">
                                 <div>
                                     <p className="section-heading">Story Content</p>
-                                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         Admin Reading View
                                     </h3>
                                 </div>
 
                                 {post.credit ? (
-                                    <span className="rounded-full bg-[hsl(var(--BashTv-light))] px-4 py-2 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                                    <span className="rounded-full bg-[hsl(var(--BashTv-light))] px-4 py-2 text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground dark:bg-white/10">
                                         Credit: {post.credit}
                                     </span>
                                 ) : null}
@@ -225,7 +229,7 @@ export default function Show({ post }: { post: Post }) {
 
                             <div
                                 className="mt-6 [&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-foreground [&_.wmde-markdown]:font-sans [&_.wmde-markdown]:leading-8 [&_.wmde-markdown_blockquote]:border-l-primary [&_.wmde-markdown_hr]:border-border"
-                                data-color-mode="light"
+                                data-color-mode={markdownColorMode}
                             >
                                 <MarkdownPreview
                                     source={post.content}
@@ -241,14 +245,14 @@ export default function Show({ post }: { post: Post }) {
                 </section>
 
                 <aside className="space-y-6 xl:col-span-4">
-                    <section className="rounded-[1.8rem] bg-white/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)]">
+                    <section className="rounded-[1.8rem] bg-white/[0.90] p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] dark:bg-slate-950/[0.88]">
                         <p className="section-heading">Publishing Info</p>
-                        <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             Editorial Snapshot
                         </h3>
 
                         <div className="mt-5 space-y-4 text-sm">
-                            <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4">
+                            <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4 dark:bg-white/5">
                                 <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                                     Status
                                 </p>
@@ -265,11 +269,11 @@ export default function Show({ post }: { post: Post }) {
                             </div>
 
                             <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
-                                <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4">
+                                <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4 dark:bg-white/5">
                                     <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                                         Author
                                     </p>
-                                    <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))]">
+                                    <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         {post.author?.name || 'Unknown'}
                                     </p>
                                     <p className="mt-1 text-muted-foreground">
@@ -277,11 +281,11 @@ export default function Show({ post }: { post: Post }) {
                                     </p>
                                 </div>
 
-                                <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4">
+                                <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4 dark:bg-white/5">
                                     <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                                         Desks
                                     </p>
-                                    <div className="mt-2 space-y-2 text-[hsl(var(--BashTv-navy))]">
+                                    <div className="mt-2 space-y-2 text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         <p className="inline-flex items-center gap-2 font-medium">
                                             <FolderTree className="h-4 w-4 text-primary" />
                                             {post.category?.name || 'No category'}
@@ -324,23 +328,23 @@ export default function Show({ post }: { post: Post }) {
                         </div>
                     </section>
 
-                    <section className="rounded-[1.8rem] bg-white/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)]">
+                    <section className="rounded-[1.8rem] bg-white/[0.90] p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] dark:bg-slate-950/[0.88]">
                         <p className="section-heading">SEO & Routing</p>
-                        <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             Metadata Check
                         </h3>
 
                         <div className="mt-5 space-y-4 text-sm">
-                            <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4">
+                            <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4 dark:bg-white/5">
                                 <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                                     Meta Title
                                 </p>
-                                <p className="mt-2 leading-7 text-[hsl(var(--BashTv-navy))]">
+                                <p className="mt-2 leading-7 text-[hsl(var(--BashTv-navy))] dark:text-white">
                                     {post.meta_title || 'No meta title set'}
                                 </p>
                             </div>
 
-                            <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4">
+                            <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4 dark:bg-white/5">
                                 <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                                     Meta Description
                                 </p>
@@ -349,7 +353,7 @@ export default function Show({ post }: { post: Post }) {
                                 </p>
                             </div>
 
-                            <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4">
+                            <div className="rounded-[1.3rem] bg-[hsl(var(--BashTv-light))]/85 p-4 dark:bg-white/5">
                                 <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                                     Public URL
                                 </p>
@@ -357,7 +361,7 @@ export default function Show({ post }: { post: Post }) {
                                     href={getPublicPostHref(post)}
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="mt-2 inline-flex items-start gap-2 break-all text-[hsl(var(--BashTv-navy))] transition hover:text-accent"
+                                    className="mt-2 inline-flex items-start gap-2 break-all text-[hsl(var(--BashTv-navy))] transition hover:text-accent dark:text-white"
                                 >
                                     <BookOpenText className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                                     <span>{getPublicPostHref(post)}</span>

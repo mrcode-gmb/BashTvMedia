@@ -44,11 +44,11 @@ export default function Index({ editors }: { editors: PaginatedEditors }) {
         <AdminLayout header="Editors">
             <Head title="Editor Management" />
 
-            <section className="rounded-[2rem] bg-white/90 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8">
+            <section className="rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] dark:bg-slate-950/[0.88] md:p-8">
                 <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
                     <div>
                         <p className="section-heading">Editorial Team</p>
-                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                        <h2 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                             Editor Management
                         </h2>
                         <p className="mt-3 max-w-3xl text-sm leading-8 text-muted-foreground">
@@ -66,10 +66,10 @@ export default function Index({ editors }: { editors: PaginatedEditors }) {
                 </div>
             </section>
 
-            <section className="mt-8 rounded-[2rem] bg-white/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)]">
+            <section className="mt-8 rounded-[2rem] bg-white/[0.90] p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] dark:bg-slate-950/[0.88]">
                 <div className="mb-6">
                     <p className="section-heading">Editorial Desk</p>
-                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                         All Editors
                     </h3>
                 </div>
@@ -90,7 +90,7 @@ export default function Index({ editors }: { editors: PaginatedEditors }) {
                         <TableBody>
                             {editors.data.map((editor) => (
                                 <TableRow key={editor.id}>
-                                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))]">
+                                    <TableCell className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                         {editor.name}
                                     </TableCell>
                                     <TableCell>{editor.email}</TableCell>
@@ -137,12 +137,12 @@ export default function Index({ editors }: { editors: PaginatedEditors }) {
                     {editors.data.map((editor) => (
                         <Card
                             key={editor.id}
-                            className="overflow-hidden rounded-[1.5rem] border-0 bg-[hsl(var(--BashTv-light))]/85 shadow-none"
+                            className="overflow-hidden rounded-[1.5rem] border-0 bg-[hsl(var(--BashTv-light))]/85 shadow-none dark:bg-white/5"
                         >
                             <CardContent className="p-4">
                                 <div className="space-y-4">
                                     <div>
-                                        <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))]">
+                                        <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             {editor.name}
                                         </h3>
                                         <div className="mt-3 flex flex-wrap gap-2">
@@ -155,7 +155,7 @@ export default function Index({ editors }: { editors: PaginatedEditors }) {
                                             >
                                                 {editor.status}
                                             </Badge>
-                                            <span className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-[hsl(var(--BashTv-navy))]">
+                                            <span className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.18em] text-[hsl(var(--BashTv-navy))] dark:bg-accent/15 dark:text-white">
                                                 <ShieldCheck className="h-3.5 w-3.5 text-accent" />
                                                 {editor.can_publish ? 'Can Publish' : 'Restricted'}
                                             </span>
@@ -163,21 +163,21 @@ export default function Index({ editors }: { editors: PaginatedEditors }) {
                                     </div>
 
                                     <div className="grid grid-cols-2 gap-3 text-sm">
-                                        <div className="rounded-[1.2rem] bg-white p-3">
+                                        <div className="rounded-[1.2rem] bg-white p-3 dark:bg-white/5">
                                             <div className="flex items-center gap-2 text-muted-foreground">
                                                 <Radio className="h-4 w-4 text-primary" />
                                                 Posts
                                             </div>
-                                            <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))]">
+                                            <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                                 {editor.posts_count}
                                             </p>
                                         </div>
-                                        <div className="rounded-[1.2rem] bg-white p-3">
+                                        <div className="rounded-[1.2rem] bg-white p-3 dark:bg-white/5">
                                             <div className="flex items-center gap-2 text-muted-foreground">
                                                 <Clock3 className="h-4 w-4 text-accent" />
                                                 Activity
                                             </div>
-                                            <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))]">
+                                            <p className="mt-2 font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                                 {editor.last_activity_at
                                                     ? new Date(
                                                           editor.last_activity_at,

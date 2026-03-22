@@ -120,7 +120,7 @@ export default function Index({
                             </Link>
                             <Link
                                 href={route('editor.dashboard')}
-                                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/18 bg-white/8 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/12"
+                                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/18 bg-white/[0.08] px-5 py-3 text-sm font-medium text-white transition hover:bg-white/[0.12]"
                             >
                                 Back to Dashboard
                                 <ArrowUpRight className="h-4 w-4" />
