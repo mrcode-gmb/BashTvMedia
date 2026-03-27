@@ -1,5 +1,6 @@
 import { Footer } from '@/Components/Footer';
 import { Header } from '@/Components/Headers';
+import { useLanguage } from '@/Components/LanguageProvider';
 import { MediaDisplay } from '@/Components/MediaDisplay';
 import { BRAND_NAME, BRAND_SHORT_TAGLINE } from '@/lib/brand';
 import { PageProps } from '@/types';
@@ -53,13 +54,6 @@ interface PaginatedPosts {
     links: Array<{ url: string | null; label: string; active: boolean }>;
 }
 
-const formatDate = (dateString: string) =>
-    new Intl.DateTimeFormat('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-    }).format(new Date(dateString));
-
 const getPostHref = (post: Post) =>
     route('posts.show.full', post.public_id || post.slug || post.id);
 
@@ -72,14 +66,24 @@ export default function CategoryShow({
     posts: PaginatedPosts;
     categories: Category[];
 }>) {
+    const {
+        articleLabel,
+        formatDate,
+        formatNumber,
+        subcategoryLabel,
+        text,
+        translateCategory,
+        translateSubcategory,
+    } = useLanguage();
     const currentCategoryWithSubs = categories.find((cat) => cat.id === category.id);
     const subcategories = currentCategoryWithSubs?.subcategories || [];
     const leadPost = posts.data[0] ?? null;
     const gridPosts = leadPost ? posts.data.slice(1) : posts.data;
+    const categoryName = translateCategory(category.slug, category.name);
 
     return (
         <>
-            <Head title={`${category.name} - ${BRAND_NAME}`} />
+            <Head title={`${categoryName} - ${BRAND_NAME}`} />
 
             <div className="min-h-screen bg-background">
                 <Header categories={categories} activeCategory={category.slug} />
@@ -90,34 +94,32 @@ export default function CategoryShow({
                             <div className="p-6 md:p-8">
                                 <nav className="mb-6 flex flex-wrap items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                                     <Link href="/" className="transition hover:text-accent">
-                                        Home
+                                        {text.header.home}
                                     </Link>
                                     <ChevronRight className="h-3.5 w-3.5" />
-                                    <span className="text-foreground/70">Category</span>
+                                    <span className="text-foreground/70">{text.categoryPage.category}</span>
                                     <ChevronRight className="h-3.5 w-3.5" />
                                     <span className="text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                        {category.name}
+                                        {categoryName}
                                     </span>
                                 </nav>
 
                                 <div className="mb-6 border-b border-border/80 pb-6">
-                                    <span className="top-news-badge">Category Desk</span>
+                                    <span className="top-news-badge">{text.categoryPage.categoryDesk}</span>
                                     <h1 className="mt-4 font-serif text-4xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white md:text-5xl">
-                                        {category.name}
+                                        {categoryName}
                                     </h1>
                                     <p className="mt-3 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-                                        {BRAND_SHORT_TAGLINE}
+                                        {text.branding.shortTagline || BRAND_SHORT_TAGLINE}
                                     </p>
                                     <div className="mt-5 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                                         <span className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-4 py-2 font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             <Layers3 className="h-4 w-4 text-primary" />
-                                            {posts.total}{' '}
-                                            {posts.total === 1 ? 'article' : 'articles'}
+                                            {formatNumber(posts.total)} {articleLabel(posts.total)}
                                         </span>
                                         <span className="inline-flex items-center gap-2 rounded-full border border-accent/15 bg-accent/5 px-4 py-2 font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                             <Radio className="h-4 w-4 text-accent" />
-                                            {subcategories.length} subcategory
-                                            {subcategories.length === 1 ? '' : 'ies'}
+                                            {formatNumber(subcategories.length)} {subcategoryLabel(subcategories.length)}
                                         </span>
                                     </div>
                                 </div>
@@ -141,14 +143,14 @@ export default function CategoryShow({
                                                     <div className="absolute left-4 top-4">
                                                         <span className="brand-outline flex items-center gap-2 border-white/10 bg-[hsl(var(--BashTv-navy))]/85 text-white">
                                                             <PlayCircle className="h-3.5 w-3.5 text-[hsl(var(--BashTv-light-gold))]" />
-                                                            Video Story
+                                                            {text.categoryPage.videoStory}
                                                         </span>
                                                     </div>
                                                 )}
                                             </div>
 
                                             <div className="p-5 md:p-6">
-                                                <p className="section-heading">Lead Coverage</p>
+                                                <p className="section-heading">{text.categoryPage.leadCoverage}</p>
                                                 <h2 className="mt-3 font-serif text-2xl font-bold leading-tight text-[hsl(var(--BashTv-navy))] transition group-hover:text-accent dark:text-white">
                                                     {leadPost.title}
                                                 </h2>
@@ -164,11 +166,15 @@ export default function CategoryShow({
                                                     </span>
                                                     <span className="inline-flex items-center gap-1.5">
                                                         <Calendar className="h-3.5 w-3.5 text-accent" />
-                                                        {formatDate(leadPost.published_at)}
+                                                        {formatDate(leadPost.published_at, {
+                                                            month: 'short',
+                                                            day: 'numeric',
+                                                            year: 'numeric',
+                                                        })}
                                                     </span>
                                                     <span className="inline-flex items-center gap-1.5">
                                                         <Eye className="h-3.5 w-3.5 text-primary" />
-                                                        {leadPost.views.toLocaleString()}
+                                                        {formatNumber(leadPost.views)}
                                                     </span>
                                                 </div>
                                             </div>
@@ -179,21 +185,19 @@ export default function CategoryShow({
 
                             <aside className="border-t border-border/70 bg-[hsl(var(--BashTv-navy))] p-6 text-white lg:border-l lg:border-t-0">
                                 <p className="section-heading text-[hsl(var(--BashTv-light-gold))]">
-                                    BASHTV Snapshot
+                                    {text.categoryPage.snapshot}
                                 </p>
                                 <h2 className="mt-3 font-serif text-3xl font-bold">
-                                    {category.name} deserves a sharper front page.
+                                    {text.categoryPage.snapshotTemplate(categoryName)}
                                 </h2>
                                 <p className="mt-4 text-sm leading-7 text-white/74">
-                                    This category keeps the original archive structure, but the visual
-                                    treatment is now cleaner, bolder, and more media-led for BASHTV
-                                    readers.
+                                    {text.categoryPage.snapshotDescription}
                                 </p>
 
                                 {subcategories.length > 0 && (
                                     <div className="mt-6 space-y-3">
                                         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/58">
-                                            Active Subcategories
+                                            {text.categoryPage.activeSubcategories}
                                         </p>
                                         <div className="flex flex-wrap gap-2">
                                             {subcategories.slice(0, 6).map((sub) => (
@@ -202,7 +206,7 @@ export default function CategoryShow({
                                                     href={`/category/${category.slug}/${sub.slug}`}
                                                     className="brand-outline transition hover:border-white/30 hover:text-white"
                                                 >
-                                                    {sub.name}
+                                                    {translateSubcategory(sub.slug, sub.name)}
                                                 </Link>
                                             ))}
                                         </div>
@@ -215,14 +219,14 @@ export default function CategoryShow({
                     {subcategories.length > 0 && (
                         <div className="mb-8 rounded-[1.7rem] border border-border/70 bg-card/90 p-5 shadow-[0_18px_50px_-36px_rgba(2,15,62,0.3)] dark:border-white/10 dark:bg-card/95">
                             <h2 className="font-serif text-2xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                Browse by Subcategory
+                                {text.categoryPage.browseBySubcategory}
                             </h2>
                             <div className="mt-4 flex flex-wrap gap-3">
                                 <Link
                                     href={`/category/${category.slug}`}
                                     className="rounded-full bg-[hsl(var(--BashTv-navy))] px-4 py-2 font-semibold text-white transition hover:bg-accent"
                                 >
-                                    All {category.name}
+                                    {text.categoryPage.allCategory(categoryName)}
                                 </Link>
                                 {subcategories.map((sub) => (
                                     <Link
@@ -230,10 +234,10 @@ export default function CategoryShow({
                                         href={`/category/${category.slug}/${sub.slug}`}
                                         className="rounded-full border border-border bg-[hsl(var(--BashTv-light))] px-4 py-2 font-medium text-foreground transition hover:border-accent hover:text-accent dark:bg-background/60"
                                     >
-                                        {sub.name}
+                                        {translateSubcategory(sub.slug, sub.name)}
                                         {sub.posts_count !== undefined && (
                                             <span className="ml-2 text-xs text-muted-foreground">
-                                                ({sub.posts_count})
+                                                ({formatNumber(sub.posts_count)})
                                             </span>
                                         )}
                                     </Link>
@@ -274,11 +278,11 @@ export default function CategoryShow({
                                             <div className="p-5">
                                                 <div className="flex flex-wrap items-center gap-2">
                                                     <span className="category-tag">
-                                                        {post.category?.name || category.name}
+                                                        {translateCategory(post.category?.slug, post.category?.name || category.name)}
                                                     </span>
                                                     {post.video_url && (
                                                         <span className="brand-highlight">
-                                                            Video
+                                                            {text.categoryPage.videoStory}
                                                         </span>
                                                     )}
                                                 </div>
@@ -306,11 +310,17 @@ export default function CategoryShow({
                                                     </div>
                                                     <div className="flex items-center gap-1.5">
                                                         <Calendar className="h-3.5 w-3.5 text-accent" />
-                                                        <span>{formatDate(post.published_at)}</span>
+                                                        <span>
+                                                            {formatDate(post.published_at, {
+                                                                month: 'short',
+                                                                day: 'numeric',
+                                                                year: 'numeric',
+                                                            })}
+                                                        </span>
                                                     </div>
                                                     <div className="flex items-center gap-1.5">
                                                         <Eye className="h-3.5 w-3.5 text-primary" />
-                                                        <span>{post.views.toLocaleString()}</span>
+                                                        <span>{formatNumber(post.views)}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -342,17 +352,16 @@ export default function CategoryShow({
                     ) : (
                         <div className="rounded-[1.8rem] border border-dashed border-border bg-card/80 py-14 text-center shadow-sm dark:bg-card/95">
                             <p className="font-serif text-2xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                No articles found in this category yet.
+                                {text.categoryPage.emptyTitle}
                             </p>
                             <p className="mx-auto mt-3 max-w-xl text-sm leading-7 text-muted-foreground">
-                                When new reporting is published to this desk, it will appear here in the
-                                same archive structure with the updated BASHTV presentation.
+                                {text.categoryPage.emptyDescription}
                             </p>
                             <Link
                                 href="/"
                                 className="mt-6 inline-block rounded-full bg-[hsl(var(--BashTv-navy))] px-6 py-3 font-semibold text-white transition hover:bg-accent"
                             >
-                                Back to Home
+                                {text.categoryPage.backHome}
                             </Link>
                         </div>
                     )}

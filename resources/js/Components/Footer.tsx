@@ -1,8 +1,9 @@
+import { useLanguage } from '@/Components/LanguageProvider';
 import { ChevronRight, PlayCircle, Radio, Youtube } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 
 import { PantamiLogo } from '@/Components/PantamiLogo';
-import { BRAND_CHANNEL_URL, BRAND_HANDLE, BRAND_NAME, BRAND_TAGLINE } from '@/lib/brand';
+import { BRAND_CHANNEL_URL, BRAND_HANDLE, BRAND_NAME } from '@/lib/brand';
 
 type FooterLink = {
     label: string;
@@ -41,6 +42,17 @@ const footerSections = [
 ];
 
 export const Footer = () => {
+    const { text, translateCategory } = useLanguage();
+    const getFooterLinkLabel = (href: string, label: string) => {
+        const slug = href === '/contact-us' ? 'contact' : href.split('/').pop();
+
+        if (slug) {
+            return translateCategory(slug, label);
+        }
+
+        return label;
+    };
+
     return (
         <footer className="mt-16 bg-[hsl(var(--BashTv-navy))] text-white">
             <div className="container py-12">
@@ -59,8 +71,7 @@ export const Footer = () => {
                                 {BRAND_NAME}
                             </h2>
                             <p className="max-w-2xl text-sm leading-7 text-white/72 sm:text-base">
-                                {BRAND_TAGLINE} Built for a fast-moving Hausa audience that wants video-led storytelling,
-                                clean headlines, and credible updates.
+                                {text.branding.tagline} {text.footer.audienceText}
                             </p>
                         </div>
 
@@ -69,22 +80,22 @@ export const Footer = () => {
                                 <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
                                     <PlayCircle className="h-5 w-5 text-[hsl(var(--BashTv-light-gold))]" />
                                 </div>
-                                <p className="text-xs uppercase tracking-[0.24em] text-white/55">Focus</p>
-                                <p className="mt-2 text-sm font-medium text-white/90">Video-first reporting</p>
+                                <p className="text-xs uppercase tracking-[0.24em] text-white/55">{text.footer.focusLabel}</p>
+                                <p className="mt-2 text-sm font-medium text-white/90">{text.footer.focusValue}</p>
                             </div>
                             <div className="rounded-[1.25rem] bg-white/6 p-4">
                                 <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
                                     <Radio className="h-5 w-5 text-[hsl(var(--BashTv-cyan))]" />
                                 </div>
-                                <p className="text-xs uppercase tracking-[0.24em] text-white/55">Audience</p>
-                                <p className="mt-2 text-sm font-medium text-white/90">Hausa news community</p>
+                                <p className="text-xs uppercase tracking-[0.24em] text-white/55">{text.footer.audienceLabel}</p>
+                                <p className="mt-2 text-sm font-medium text-white/90">{text.footer.audienceValue}</p>
                             </div>
                             <div className="rounded-[1.25rem] bg-white/6 p-4">
                                 <div className="mb-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
                                     <Youtube className="h-5 w-5 text-[hsl(var(--BashTv-bright))]" />
                                 </div>
-                                <p className="text-xs uppercase tracking-[0.24em] text-white/55">Platform</p>
-                                <p className="mt-2 text-sm font-medium text-white/90">YouTube-led media brand</p>
+                                <p className="text-xs uppercase tracking-[0.24em] text-white/55">{text.footer.platformLabel}</p>
+                                <p className="mt-2 text-sm font-medium text-white/90">{text.footer.platformValue}</p>
                             </div>
                         </div>
                     </div>
@@ -92,13 +103,13 @@ export const Footer = () => {
                     <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-1">
                         <div className="rounded-[1.5rem] bg-white/6 p-6">
                             <p className="text-xs font-medium uppercase tracking-[0.28em] text-[hsl(var(--BashTv-light-gold))]">
-                                Stay Connected
+                                {text.footer.stayConnected}
                             </p>
                             <h3 className="mt-3 font-serif text-xl font-semibold text-white">
-                                Follow BASHTV MEDIA on YouTube
+                                {text.footer.followYouTube}
                             </h3>
                             <p className="mt-3 text-sm leading-7 text-white/72">
-                                Watch the latest reports, interviews, and Hausa-language video bulletins directly from the channel.
+                                {text.footer.followDescription}
                             </p>
                             <a
                                 href={BRAND_CHANNEL_URL}
@@ -107,7 +118,7 @@ export const Footer = () => {
                                 className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-medium text-white transition hover:bg-accent/90"
                             >
                                 <Youtube className="h-4 w-4" />
-                                Open Channel
+                                {text.footer.openChannel}
                             </a>
                         </div>
 
@@ -115,7 +126,11 @@ export const Footer = () => {
                             {footerSections.map((section) => (
                                 <div key={section.title}>
                                     <h4 className="text-xs font-medium uppercase tracking-[0.28em] text-[hsl(var(--BashTv-light-gold))]">
-                                        {section.title}
+                                        {section.title === 'Coverage'
+                                            ? text.footer.sections.coverage
+                                            : section.title === 'Video Desk'
+                                              ? text.footer.sections.videoDesk
+                                              : text.footer.sections.audience}
                                     </h4>
                                     <ul className="mt-4 space-y-3 text-sm text-white/72">
                                         {section.links.map((link) => (
@@ -126,7 +141,7 @@ export const Footer = () => {
                                                         className="inline-flex items-center gap-2 transition hover:text-white"
                                                     >
                                                         <ChevronRight className="h-3.5 w-3.5 text-accent" />
-                                                        {link.label}
+                                                        {getFooterLinkLabel(link.href, link.label)}
                                                     </a>
                                                 ) : (
                                                     <Link
@@ -134,7 +149,7 @@ export const Footer = () => {
                                                         className="inline-flex items-center gap-2 transition hover:text-white"
                                                     >
                                                         <ChevronRight className="h-3.5 w-3.5 text-accent" />
-                                                        {link.label}
+                                                        {getFooterLinkLabel(link.href, link.label)}
                                                     </Link>
                                                 )}
                                             </li>
@@ -149,8 +164,8 @@ export const Footer = () => {
 
             <div>
                 <div className="container flex flex-col gap-3 py-5 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
-                    <p>© 2026 {BRAND_NAME}. All rights reserved.</p>
-                    <p>Modern Hausa media, premium presentation, and fast video-led reporting.</p>
+                    <p>© 2026 {text.footer.copyright}</p>
+                    <p>{text.footer.footerNote}</p>
                 </div>
             </div>
         </footer>

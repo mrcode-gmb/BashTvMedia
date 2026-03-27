@@ -2,6 +2,7 @@ import { PageProps } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Header } from '@/Components/Headers';
 import { Footer } from '@/Components/Footer';
+import { useLanguage } from '@/Components/LanguageProvider';
 
 interface Category {
     id: number;
@@ -13,15 +14,17 @@ interface Category {
 export default function CategoriesIndex({
     categories,
 }: PageProps<{ categories: Category[] }>) {
+    const { articleLabel, formatNumber, text, translateCategory } = useLanguage();
+
     return (
         <>
-            <Head title="All Categories - BASHTV MEDIA" />
+            <Head title={`${text.categoriesIndex.title} - BASHTV MEDIA`} />
             <div className="min-h-screen bg-background">
                 <Header categories={categories} />
                 <main className="container py-12">
                     <div className="mb-8">
-                        <h1 className="text-4xl font-bold font-serif mb-2">All Categories</h1>
-                        <p className="text-muted-foreground">Browse news by category</p>
+                        <h1 className="text-4xl font-bold font-serif mb-2">{text.categoriesIndex.title}</h1>
+                        <p className="text-muted-foreground">{text.categoriesIndex.description}</p>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -33,10 +36,10 @@ export default function CategoriesIndex({
                             >
                                 <div className="rounded-[1.4rem] border-2 border-border bg-white p-6 transition-all hover:border-accent/40 hover:shadow-lg">
                                     <h2 className="mb-2 text-2xl font-bold font-serif group-hover:text-accent transition-colors">
-                                        {category.name}
+                                        {translateCategory(category.slug, category.name)}
                                     </h2>
                                     <p className="text-muted-foreground">
-                                        {category.posts_count} {category.posts_count === 1 ? 'article' : 'articles'}
+                                        {formatNumber(category.posts_count)} {articleLabel(category.posts_count)}
                                     </p>
                                 </div>
                             </Link>
@@ -45,7 +48,7 @@ export default function CategoriesIndex({
 
                     {categories.length === 0 && (
                         <div className="text-center py-12">
-                            <p className="text-muted-foreground text-lg">No categories found.</p>
+                            <p className="text-muted-foreground text-lg">{text.categoriesIndex.empty}</p>
                         </div>
                     )}
                 </main>

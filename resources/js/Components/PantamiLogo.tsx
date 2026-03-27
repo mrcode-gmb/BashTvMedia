@@ -1,5 +1,6 @@
 import React from 'react';
-import { BRAND_HANDLE, BRAND_NAME, BRAND_SHORT_TAGLINE } from '@/lib/brand';
+import { useLanguage } from '@/Components/LanguageProvider';
+import { BRAND_HANDLE, BRAND_NAME } from '@/lib/brand';
 
 interface PantamiLogoProps {
   className?: string;
@@ -7,6 +8,8 @@ interface PantamiLogoProps {
 }
 
 export const PantamiLogo: React.FC<PantamiLogoProps> = ({ className = '', showText = true }) => {
+  const { text } = useLanguage();
+
   return (
     <div className={`flex flex-col items-center justify-center ${className}`}>
       <div className="flex w-full justify-center">
@@ -27,7 +30,7 @@ export const PantamiLogo: React.FC<PantamiLogoProps> = ({ className = '', showTe
           </h1>
           <div className="h-[3px] w-28 rounded-full bg-gradient-to-r from-[hsl(var(--BashTv-light-gold))] via-primary to-accent" />
           <p className="max-w-xl text-sm text-foreground/72 sm:text-base">
-            {BRAND_SHORT_TAGLINE}
+            {text.branding.shortTagline}
           </p>
         </div>
       )}
@@ -36,6 +39,8 @@ export const PantamiLogo: React.FC<PantamiLogoProps> = ({ className = '', showTe
 };
 
 export const PantamiLogoCompact: React.FC<{ className?: string }> = ({ className = '' }) => {
+  const { text } = useLanguage();
+
   return (
     <div className={`flex min-w-0 items-center gap-3 ${className}`}>
       <img 
@@ -49,7 +54,7 @@ export const PantamiLogoCompact: React.FC<{ className?: string }> = ({ className
           {BRAND_NAME}
         </h1>
         <p className="truncate text-[10px] uppercase tracking-[0.28em] text-foreground/58 sm:text-[11px]">
-          {BRAND_SHORT_TAGLINE}
+          {text.branding.shortTagline}
         </p>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { LanguageProvider } from '@/Components/LanguageProvider';
 import { createInertiaApp } from '@inertiajs/react';
 import createServer from '@inertiajs/react/server';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -27,7 +28,11 @@ createServer((page) =>
                 });
             /* eslint-enable */
 
-            return <App {...props} />;
+            return (
+                <LanguageProvider>
+                    <App {...props} />
+                </LanguageProvider>
+            );
         },
     }),
 );

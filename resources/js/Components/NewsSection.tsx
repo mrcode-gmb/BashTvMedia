@@ -1,5 +1,6 @@
 import { Link } from '@inertiajs/react';
 
+import { useLanguage } from '@/Components/LanguageProvider';
 import { MediaDisplay } from '@/Components/MediaDisplay';
 import { NewsCard } from '@/Components/NewsCard';
 
@@ -38,6 +39,8 @@ export const NewsSection = ({
     articles,
     layout = 'grid',
 }: NewsSectionProps) => {
+    const { formatDate, translateCategory } = useLanguage();
+
     if (!articles?.length) {
         return null;
     }
@@ -70,7 +73,9 @@ export const NewsSection = ({
                         </div>
 
                         <div className="space-y-4 p-5 sm:p-6">
-                            <span className="category-tag">{featured.category?.name || title}</span>
+                            <span className="category-tag">
+                                {translateCategory(featured.category?.slug, featured.category?.name || title)}
+                            </span>
                             <h3 className="news-title-lg">{featured.title}</h3>
                             {(featured.excerpt || featured.content) && (
                                 <p className="line-clamp-3 text-sm leading-7 text-muted-foreground sm:text-base">
@@ -87,11 +92,20 @@ export const NewsSection = ({
                                 slug={article.slug}
                                 publicId={article.public_id}
                                 category={article.category?.name || title}
+                                categorySlug={article.category?.slug}
                                 title={article.title}
                                 image={article.image}
                                 videoUrl={article.video_url}
                                 excerpt={article.excerpt}
-                                date={article.published_at ? new Date(article.published_at).toLocaleDateString() : ''}
+                                date={
+                                    article.published_at
+                                        ? formatDate(article.published_at, {
+                                              month: 'short',
+                                              day: 'numeric',
+                                              year: 'numeric',
+                                          })
+                                        : ''
+                                }
                                 variant="horizontal"
                             />
                         ))}
@@ -119,11 +133,20 @@ export const NewsSection = ({
                         slug={article.slug}
                         publicId={article.public_id}
                         category={article.category?.name || title}
+                        categorySlug={article.category?.slug}
                         title={article.title}
                         image={article.image}
                         videoUrl={article.video_url}
                         excerpt={article.excerpt}
-                        date={article.published_at ? new Date(article.published_at).toLocaleDateString() : ''}
+                        date={
+                            article.published_at
+                                ? formatDate(article.published_at, {
+                                      month: 'short',
+                                      day: 'numeric',
+                                      year: 'numeric',
+                                  })
+                                : ''
+                        }
                     />
                 ))}
             </div>

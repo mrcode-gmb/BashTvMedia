@@ -2,6 +2,7 @@ import { FeaturedVideosSection } from '@/Components/FeaturedVideosSection';
 import { Header } from '@/Components/Headers';
 import { Footer } from '@/Components/Footer';
 import { HeroSection } from '@/Components/HeroSection';
+import { useLanguage } from '@/Components/LanguageProvider';
 import { MainContent } from '@/Components/MainContent';
 import { Head } from '@inertiajs/react';
 import { PageProps } from '@/types';
@@ -13,9 +14,17 @@ export default function Welcome({
     posts: any[]; 
     categories: Array<{ id: number; name: string; priority: string; slug: string; posts_count?: number }>;
 }>) {
+    const { language } = useLanguage();
+
     return (
         <>
-            <Head title="BASHTV MEDIA - Hausa News, Videos, and Reports" />
+            <Head
+                title={
+                    language === 'ha'
+                        ? 'BASHTV MEDIA - Labaran Hausa, Bidiyo, da Rahotanni'
+                        : 'BASHTV MEDIA - Hausa News, Videos, and Reports'
+                }
+            />
             <div className="min-h-screen bg-background">
                 <Header categories={categories} activeNews="HOME" />
                 <main>

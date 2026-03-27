@@ -1,8 +1,9 @@
 import React from 'react';
 import { Footer } from '@/Components/Footer';
 import { Header } from '@/Components/Headers';
+import { useLanguage } from '@/Components/LanguageProvider';
 import { MediaDisplay } from '@/Components/MediaDisplay';
-import { BRAND_NAME, BRAND_TAGLINE } from '@/lib/brand';
+import { BRAND_NAME } from '@/lib/brand';
 import { Head, Link } from '@inertiajs/react';
 import {
     DropdownMenu,
@@ -10,7 +11,6 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/Components/ui/dropdown-menu';
-import { format, formatDistanceToNow } from 'date-fns';
 import MarkdownPreview from '@uiw/react-markdown-preview';
 import {
     Bookmark,
@@ -131,6 +131,15 @@ export default function Show({
     trendingPosts = [],
     categories = [],
 }: ShowProps) {
+    const {
+        formatDate,
+        formatNumber,
+        formatRelativeTime,
+        readTimeLabel,
+        text,
+        translateCategory,
+        viewLabel,
+    } = useLanguage();
     const [post, setPost] = React.useState<Post | null>(null);
     const [isLoading, setIsLoading] = React.useState(true);
     const [error, setError] = React.useState<string | null>(null);
@@ -149,7 +158,7 @@ export default function Show({
                 const slug = window.location.pathname.split('/').pop();
                 const response = await fetch(`/api/posts/${slug}`);
                 if (!response.ok) {
-                    throw new Error('Post not found');
+                    throw new Error(text.postPage.postNotFound);
                 }
 
                 const data = await response.json();
@@ -158,7 +167,7 @@ export default function Show({
                 }
             } catch (err) {
                 if (active) {
-                    setError(err instanceof Error ? err.message : 'Failed to load post');
+                    setError(err instanceof Error ? err.message : text.postPage.loadingError);
                     console.error('Error fetching post:', err);
                 }
             } finally {
@@ -225,16 +234,16 @@ export default function Show({
                 <main className="container py-12 text-center">
                     <div className="inline-block rounded-[1.7rem] border border-destructive/20 bg-destructive/10 p-8">
                         <h1 className="font-serif text-3xl font-bold text-destructive">
-                            Post Not Found
+                            {text.postPage.postNotFound}
                         </h1>
                         <p className="mt-3 text-muted-foreground">
-                            {error || 'The requested post could not be found.'}
+                            {error || text.postPage.postNotFoundDescription}
                         </p>
                         <Link
                             href="/"
                             className="mt-6 inline-flex items-center rounded-full bg-[hsl(var(--BashTv-navy))] px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent"
                         >
-                            Back to Home
+                            {text.postPage.backHome}
                         </Link>
                     </div>
                 </main>
@@ -252,12 +261,12 @@ export default function Show({
     return (
         <>
             <Head title={`${post.title} - ${BRAND_NAME}`}>
-                <meta name="description" content={post.excerpt || BRAND_TAGLINE} />
+                <meta name="description" content={post.excerpt || text.branding.tagline} />
                 <meta property="og:title" content={post.title} />
-                <meta property="og:description" content={post.excerpt || BRAND_TAGLINE} />
+                <meta property="og:description" content={post.excerpt || text.branding.tagline} />
                 <meta property="og:image" content={post.image || '/bashTvMedia.jpeg'} />
                 <meta name="twitter:title" content={post.title} />
-                <meta name="twitter:description" content={post.excerpt || BRAND_TAGLINE} />
+                <meta name="twitter:description" content={post.excerpt || text.branding.tagline} />
                 <meta name="twitter:image" content={post.image || '/bashTvMedia.jpeg'} />
                 <meta name="twitter:image:src" content={post.image || '/bashTvMedia.jpeg'} />
             </Head>
@@ -270,7 +279,7 @@ export default function Show({
                         <ol className="flex flex-wrap items-center gap-2">
                             <li>
                                 <Link href="/" className="hover:text-accent hover:underline">
-                                    Home
+                                    {text.postPage.home}
                                 </Link>
                             </li>
                             {post.category?.name && (
@@ -281,7 +290,7 @@ export default function Show({
                                             href={`/category/${post.category.slug || 'uncategorized'}`}
                                             className="hover:text-accent hover:underline"
                                         >
-                                            {post.category.name}
+                                            {translateCategory(post.category.slug, post.category.name)}
                                         </Link>
                                     </li>
                                 </>
@@ -299,10 +308,13 @@ export default function Show({
                                 <header>
                                     <div className="mb-5 flex flex-wrap items-center gap-3">
                                         <span className="top-news-badge">
-                                            {post.category?.name || 'Top Story'}
+                                            {translateCategory(
+                                                post.category?.slug,
+                                                post.category?.name || text.postPage.topStory,
+                                            )}
                                         </span>
                                         {post.video_url && (
-                                            <span className="brand-highlight">Video Report</span>
+                                            <span className="brand-highlight">{text.postPage.videoReport}</span>
                                         )}
                                     </div>
 
@@ -329,28 +341,32 @@ export default function Show({
                                                     {post.author?.name?.charAt(0) || 'A'}
                                                 </div>
                                             )}
-                                            <div>
-                                                <div className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                                    {post.author?.name || BRAND_NAME}
-                                                </div>
-                                                <div className="text-xs text-muted-foreground">
-                                                    {format(new Date(publishedDate), 'MMMM d, yyyy')} •{' '}
-                                                    {readingTime} min read
+                                                <div>
+                                                    <div className="font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
+                                                        {post.author?.name || BRAND_NAME}
+                                                    </div>
+                                                    <div className="text-xs text-muted-foreground">
+                                                        {formatDate(publishedDate, {
+                                                            month: 'long',
+                                                            day: 'numeric',
+                                                            year: 'numeric',
+                                                        })}{' '}
+                                                        • {readTimeLabel(readingTime)}
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
                                         <div className="ml-auto flex flex-wrap items-center gap-3">
                                             <div className="inline-flex items-center gap-2 rounded-full border border-primary/15 bg-primary/5 px-4 py-2 text-sm font-medium text-[hsl(var(--BashTv-navy))] dark:text-white">
                                                 <Eye className="h-4 w-4 text-primary" />
-                                                {(post.views || 0).toLocaleString()} views
+                                                {formatNumber(post.views || 0)} {viewLabel(post.views || 0)}
                                             </div>
 
                                             <DropdownMenu>
                                                 <DropdownMenuTrigger asChild>
                                                     <button className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] transition hover:border-accent hover:text-accent dark:text-white">
                                                         <Share2 className="h-4 w-4" />
-                                                        Share
+                                                        {text.postPage.share}
                                                     </button>
                                                 </DropdownMenuTrigger>
                                                 <DropdownMenuContent align="end" className="w-48">
@@ -358,32 +374,32 @@ export default function Show({
                                                         onClick={() => shareStory('facebook')}
                                                         className="cursor-pointer"
                                                     >
-                                                        Share on Facebook
+                                                        {text.postPage.shareOnFacebook}
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem
                                                         onClick={() => shareStory('twitter')}
                                                         className="cursor-pointer"
                                                     >
-                                                        Share on Twitter
+                                                        {text.postPage.shareOnTwitter}
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem
                                                         onClick={() => shareStory('whatsapp')}
                                                         className="cursor-pointer"
                                                     >
-                                                        Share on WhatsApp
+                                                        {text.postPage.shareOnWhatsApp}
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem
                                                         onClick={() => shareStory('copy')}
                                                         className="cursor-pointer"
                                                     >
-                                                        Copy link
+                                                        {text.postPage.copyLink}
                                                     </DropdownMenuItem>
                                                 </DropdownMenuContent>
                                             </DropdownMenu>
 
                                             <button className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] transition hover:border-accent hover:text-accent dark:text-white">
                                                 <Bookmark className="h-4 w-4" />
-                                                Save
+                                                {text.postPage.save}
                                             </button>
                                         </div>
                                     </div>
@@ -417,7 +433,7 @@ export default function Show({
 
                                     {(post.image_caption || post.credit) && (
                                         <div className="mt-3 flex flex-col gap-2 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
-                                            <p>{post.image_caption || 'BASHTV MEDIA visual report'}</p>
+                                            <p>{post.image_caption || text.postPage.imageCaptionFallback}</p>
                                             {post.credit ? (
                                                 <span className="font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
                                                     {post.credit}
@@ -449,7 +465,9 @@ export default function Show({
                             >
                                 <div className="mb-6 flex flex-wrap gap-2">
                                     {post.category && post.category.name && (
-                                        <span className="category-tag">{post.category.name}</span>
+                                        <span className="category-tag">
+                                            {translateCategory(post.category.slug, post.category.name)}
+                                        </span>
                                     )}
                                 </div>
 
@@ -457,11 +475,11 @@ export default function Show({
                                     <div className="flex flex-wrap items-center gap-4">
                                         <button className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-[hsl(var(--BashTv-navy))]">
                                             <Bookmark className="h-4 w-4" />
-                                            Like
+                                            {text.postPage.like}
                                         </button>
                                         <button className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-[hsl(var(--BashTv-navy))]">
                                             <MessageSquare className="h-4 w-4" />
-                                            Comment
+                                            {text.postPage.comment}
                                         </button>
                                     </div>
 
@@ -469,11 +487,15 @@ export default function Show({
                                         <span className="inline-flex items-center gap-2">
                                             <CalendarDays className="h-4 w-4 text-accent" />
                                             {post.updated_at &&
-                                                format(new Date(post.updated_at), 'MMMM d, yyyy')}
+                                                formatDate(post.updated_at, {
+                                                    month: 'long',
+                                                    day: 'numeric',
+                                                    year: 'numeric',
+                                                })}
                                         </span>
                                         <span className="inline-flex items-center gap-2">
                                             <Clock3 className="h-4 w-4 text-primary" />
-                                            {readingTime} min read
+                                            {readTimeLabel(readingTime)}
                                         </span>
                                     </div>
                                 </div>
@@ -485,7 +507,7 @@ export default function Show({
                                 className={`rounded-[1.8rem] border border-border/70 bg-card/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.3)] dark:border-white/10 dark:bg-card/95 ${mobileFullBleedCard}`}
                             >
                                 <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                    About the Author
+                                    {text.postPage.aboutAuthor}
                                 </h3>
                                 <div className="mt-4 flex items-start gap-4">
                                     {authorAvatar ? (
@@ -505,11 +527,11 @@ export default function Show({
                                         </h4>
                                         <p className="mt-2 text-sm leading-7 text-muted-foreground">
                                             {post.author?.bio ||
-                                                'Contributing reporter at BASHTV MEDIA'}
+                                                text.postPage.authorFallback}
                                         </p>
                                         <div className="mt-3 inline-flex items-center gap-2 rounded-full border border-border bg-[hsl(var(--BashTv-light))] px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground dark:bg-background/60">
                                             <UserRound className="h-3.5 w-3.5 text-primary" />
-                                            Editorial Desk
+                                            {text.postPage.editorialDesk}
                                         </div>
                                     </div>
                                 </div>
@@ -519,28 +541,28 @@ export default function Show({
                                 className={`rounded-[1.8rem] border border-primary/15 bg-gradient-to-br from-white via-[hsl(var(--BashTv-light))] to-accent/5 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.3)] dark:bg-[linear-gradient(135deg,rgba(15,23,42,0.92),rgba(2,15,62,0.9),rgba(5,129,247,0.18))] ${mobileFullBleedCard}`}
                             >
                                 <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                    Stay updated
+                                    {text.postPage.stayUpdated}
                                 </h3>
                                 <p className="mt-2 text-sm leading-7 text-muted-foreground">
-                                    Get the latest news and article updates from BASHTV MEDIA.
+                                    {text.postPage.stayUpdatedDescription}
                                 </p>
                                 <form className="mt-4 space-y-3">
                                     <div>
                                         <label htmlFor="email" className="sr-only">
-                                            Email address
+                                            {text.auth.email}
                                         </label>
                                         <input
                                             type="email"
                                             id="email"
                                             className="w-full rounded-full border border-border bg-card px-4 py-3 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
-                                            placeholder="Enter your email"
+                                            placeholder={text.postPage.emailPlaceholder}
                                         />
                                     </div>
                                     <button
                                         type="submit"
                                         className="w-full rounded-full bg-[hsl(var(--BashTv-navy))] px-4 py-3 font-semibold text-white transition hover:bg-accent"
                                     >
-                                        Subscribe
+                                        {text.postPage.subscribe}
                                     </button>
                                 </form>
                             </div>
@@ -550,7 +572,7 @@ export default function Show({
                                     className={`rounded-[1.8rem] border border-border/70 bg-card/90 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.3)] dark:border-white/10 dark:bg-card/95 ${mobileFullBleedCard}`}
                                 >
                                     <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                        Trending Now
+                                        {text.postPage.trendingNow}
                                     </h3>
                                     <div className="mt-5 space-y-4">
                                         {trendingPosts.map((trend) => (
@@ -577,15 +599,11 @@ export default function Show({
                                                     </h4>
                                                     <div className="mt-2 flex items-center text-xs text-muted-foreground">
                                                         <span>
-                                                            {formatDistanceToNow(
-                                                                new Date(trend.published_at),
-                                                                { addSuffix: true },
-                                                            )}
+                                                            {formatRelativeTime(trend.published_at)}
                                                         </span>
                                                         <span className="mx-2">•</span>
                                                         <span>
-                                                            {trend.views}{' '}
-                                                            {trend.views === 1 ? 'view' : 'views'}
+                                                            {formatNumber(trend.views)} {viewLabel(trend.views)}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -599,7 +617,11 @@ export default function Show({
 
                     <section className="mt-16">
                         <h2 className="mb-6 font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                            {post.category ? `More from ${post.category.name}` : 'Related Articles'}
+                            {post.category
+                                ? text.postPage.moreFrom(
+                                      translateCategory(post.category.slug, post.category.name),
+                                  )
+                                : text.postPage.relatedArticles}
                         </h2>
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
                             {relatedPosts && relatedPosts.length > 0 ? (
@@ -622,7 +644,10 @@ export default function Show({
                                         <div className="p-5">
                                             {relatedPost.category && (
                                                 <div className="category-tag mb-3">
-                                                    {relatedPost.category.name}
+                                                    {translateCategory(
+                                                        relatedPost.category.slug,
+                                                        relatedPost.category.name,
+                                                    )}
                                                 </div>
                                             )}
                                             <h3 className="font-serif text-xl font-semibold text-[hsl(var(--BashTv-navy))] transition-colors group-hover:text-accent dark:text-white">
@@ -644,7 +669,7 @@ export default function Show({
                                     </div>
                                 ))
                             ) : (
-                                <p className="text-muted-foreground">No related articles found.</p>
+                                <p className="text-muted-foreground">{text.postPage.noRelatedArticles}</p>
                             )}
                         </div>
                     </section>
@@ -652,13 +677,13 @@ export default function Show({
                     <section className="mt-16">
                         <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                             <h2 className="font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                Comments
+                                {text.postPage.comments}
                             </h2>
                             <Link
                                 href={route('login')}
                                 className="text-sm font-semibold text-primary hover:text-accent hover:underline"
                             >
-                                Sign in to comment
+                                {text.postPage.signInToComment}
                             </Link>
                         </div>
 
@@ -671,9 +696,9 @@ export default function Show({
                                         href={route('login')}
                                         className="font-semibold text-primary hover:underline"
                                     >
-                                        Sign in
+                                        {text.auth.signIn}
                                     </Link>{' '}
-                                    to leave a comment
+                                    {text.postPage.leaveComment}
                                 </p>
                             </div>
 
@@ -681,7 +706,7 @@ export default function Show({
                                 className={`rounded-[1.7rem] border border-dashed border-border bg-card/80 py-10 text-center shadow-sm dark:bg-card/95 ${mobileFullBleedCard}`}
                             >
                                 <p className="text-muted-foreground">
-                                    No comments yet. Be the first to share your thoughts!
+                                    {text.postPage.noComments}
                                 </p>
                             </div>
                         </div>

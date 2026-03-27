@@ -1,6 +1,7 @@
 import '../css/app.css';
 import './bootstrap';
 
+import { LanguageProvider } from '@/Components/LanguageProvider';
 import { ThemeProvider } from '@/Components/ThemeProvider';
 import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -22,9 +23,11 @@ createInertiaApp({
         }
 
         createRoot(el).render(
-            <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-                <App {...props} />
-            </ThemeProvider>
+            <LanguageProvider>
+                <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+                    <App {...props} />
+                </ThemeProvider>
+            </LanguageProvider>
         );
     },
     progress: {

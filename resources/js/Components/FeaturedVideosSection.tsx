@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { PlayCircle, Youtube } from 'lucide-react';
 
+import { useLanguage } from '@/Components/LanguageProvider';
 import { MediaDisplay } from '@/Components/MediaDisplay';
 import { BRAND_CHANNEL_URL } from '@/lib/brand';
 
@@ -26,6 +27,8 @@ interface Post {
 const getPostHref = (post: Post) => route('posts.show.full', post.public_id || post.slug || post.id);
 
 export const FeaturedVideosSection = ({ posts }: { posts: Post[] }) => {
+    const { formatDate, text, translateCategory } = useLanguage();
+
     if (!posts?.length) {
         return null;
     }
@@ -44,12 +47,12 @@ export const FeaturedVideosSection = ({ posts }: { posts: Post[] }) => {
         <section className="container pt-6">
             <div className="mb-5 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                 <div>
-                    <p className="section-heading">Featured Videos</p>
+                    <p className="section-heading">{text.featuredVideos.title}</p>
                     <h2 className="mt-3 max-w-3xl font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white sm:text-4xl">
-                        BashTV’s latest video stories, reports, and on-camera coverage.
+                        {text.featuredVideos.heading}
                     </h2>
                     <p className="mt-3 max-w-2xl text-sm leading-7 text-muted-foreground sm:text-base">
-                        Put video front and center with a premium hero reel that reflects the BASHTV MEDIA identity.
+                        {text.featuredVideos.description}
                     </p>
                 </div>
 
@@ -60,7 +63,7 @@ export const FeaturedVideosSection = ({ posts }: { posts: Post[] }) => {
                     className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold text-white transition hover:bg-accent/90"
                 >
                     <Youtube className="h-4 w-4" />
-                    Visit YouTube Channel
+                    {text.featuredVideos.visitChannel}
                 </a>
             </div>
 
@@ -77,16 +80,27 @@ export const FeaturedVideosSection = ({ posts }: { posts: Post[] }) => {
                         />
                         <div className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-2 rounded-full bg-[hsl(var(--BashTv-navy))]/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white">
                             <PlayCircle className="h-3.5 w-3.5 text-[hsl(var(--BashTv-light-gold))]" />
-                            Video Spotlight
+                            {text.featuredVideos.spotlight}
                         </div>
                     </div>
 
                     <div className="space-y-4 p-5 sm:p-6">
                         <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                            <span className="category-tag">{leadPost.category?.name || 'BashTV Video Desk'}</span>
+                            <span className="category-tag">
+                                {translateCategory(
+                                    leadPost.category?.slug,
+                                    leadPost.category?.name || text.featuredVideos.fallbackEyebrow,
+                                )}
+                            </span>
                             {leadPost.author?.name && <span>{leadPost.author.name}</span>}
                             {leadPost.published_at && (
-                                <span>{new Date(leadPost.published_at).toLocaleDateString()}</span>
+                                <span>
+                                    {formatDate(leadPost.published_at, {
+                                        month: 'short',
+                                        day: 'numeric',
+                                        year: 'numeric',
+                                    })}
+                                </span>
                             )}
                         </div>
 
@@ -116,14 +130,17 @@ export const FeaturedVideosSection = ({ posts }: { posts: Post[] }) => {
                                 <div className="absolute inset-x-0 bottom-2 flex justify-center">
                                     <span className="inline-flex items-center gap-1 rounded-full bg-[hsl(var(--BashTv-navy))]/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
                                         <PlayCircle className="h-3 w-3 text-[hsl(var(--BashTv-light-gold))]" />
-                                        Watch
+                                        {text.featuredVideos.watch}
                                     </span>
                                 </div>
                             </div>
 
                             <div className="min-w-0">
                                 <span className="brand-highlight mb-3 inline-flex">
-                                    {post.category?.name || 'Video Story'}
+                                    {translateCategory(
+                                        post.category?.slug,
+                                        post.category?.name || text.featuredVideos.spotlight,
+                                    )}
                                 </span>
                                 <h3 className="news-title-sm line-clamp-3">{post.title}</h3>
                                 {post.excerpt && (
@@ -138,13 +155,13 @@ export const FeaturedVideosSection = ({ posts }: { posts: Post[] }) => {
                     {sidebarPosts.length < 3 && (
                         <div className="brand-shell p-6">
                             <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[hsl(var(--BashTv-light-gold))]">
-                                Video-led newsroom
+                                {text.featuredVideos.fallbackEyebrow}
                             </p>
                             <h3 className="mt-3 font-serif text-2xl font-bold text-white">
-                                More screen presence. Less static newspaper feel.
+                                {text.featuredVideos.fallbackHeading}
                             </h3>
                             <p className="mt-3 text-sm leading-7 text-white/72">
-                                This section is ready for more videos as editors publish YouTube-backed stories into the existing post system.
+                                {text.featuredVideos.fallbackDescription}
                             </p>
                         </div>
                     )}

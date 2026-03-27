@@ -1,10 +1,13 @@
 import { PlayCircle, Youtube } from 'lucide-react';
 
+import { useLanguage } from '@/Components/LanguageProvider';
 import { NewsCard } from '@/Components/NewsCard';
 import { NewsSection } from '@/Components/NewsSection';
 import { BRAND_CHANNEL_URL, BRAND_NAME } from '@/lib/brand';
 
 export const MainContent = ({ posts }: { posts: any[] }) => {
+    const { formatDate, text } = useLanguage();
+
     if (!posts?.length) {
         return null;
     }
@@ -18,8 +21,8 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
     return (
         <div className="pb-10">
             <NewsSection
-                title="Top Stories"
-                description="The strongest headlines on the BASHTV MEDIA front page."
+                title={text.mainContent.topStories}
+                description={text.mainContent.topStoriesDescription}
                 articles={topStories.length ? topStories : posts.slice(0, 5)}
                 layout="featured"
             />
@@ -29,12 +32,12 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
                     <div className="brand-shell overflow-hidden p-6 sm:p-7">
                         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                             <div>
-                                <p className="section-heading text-[hsl(var(--BashTv-light-gold))]">Video Bulletin</p>
+                                <p className="section-heading text-[hsl(var(--BashTv-light-gold))]">{text.mainContent.videoBulletin}</p>
                                 <h2 className="mt-3 font-serif text-3xl font-bold text-white sm:text-4xl">
-                                    More moving visuals. More screen-first storytelling.
+                                    {text.mainContent.videoHeading}
                                 </h2>
                                 <p className="mt-3 max-w-2xl text-sm leading-7 text-white/72 sm:text-base">
-                                    Reinforce the BASHTV MEDIA identity with a dedicated video bulletin strip inside the main news flow.
+                                    {text.mainContent.videoDescription}
                                 </p>
                             </div>
 
@@ -45,7 +48,7 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
                                 className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-[hsl(var(--BashTv-navy))] transition hover:bg-[hsl(var(--BashTv-light-gold))]"
                             >
                                 <Youtube className="h-4 w-4 text-accent" />
-                                Watch on YouTube
+                                {text.mainContent.watchOnYouTube}
                             </a>
                         </div>
 
@@ -55,12 +58,21 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
                                     key={story.id}
                                     slug={story.slug}
                                     publicId={story.public_id}
-                                    category={story.category?.name || 'Video Story'}
+                                    category={story.category?.name || text.postPage.videoReport}
+                                    categorySlug={story.category?.slug}
                                     title={story.title}
                                     image={story.image}
                                     videoUrl={story.video_url}
                                     excerpt={story.excerpt}
-                                    date={story.published_at ? new Date(story.published_at).toLocaleDateString() : ''}
+                                    date={
+                                        story.published_at
+                                            ? formatDate(story.published_at, {
+                                                  month: 'short',
+                                                  day: 'numeric',
+                                                  year: 'numeric',
+                                              })
+                                            : ''
+                                    }
                                     className="shadow-none"
                                     lightText
                                 />
@@ -74,9 +86,9 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
                 <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
                     <div className="rounded-[1.6rem] border border-border bg-card/90 p-5 shadow-[0_16px_40px_-28px_rgba(2,15,62,0.35)]">
                         <div className="mb-5">
-                            <p className="section-heading">Across The Desk</p>
+                            <p className="section-heading">{text.mainContent.acrossDesk}</p>
                             <h2 className="mt-2 font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                A clean, modern story grid for BASHTV’s broader coverage.
+                                {text.mainContent.acrossDeskHeading}
                             </h2>
                         </div>
 
@@ -86,11 +98,20 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
                                     key={article.id}
                                     slug={article.slug}
                                     publicId={article.public_id}
-                                    category={article.category?.name || 'News'}
+                                    category={article.category?.name || text.mainContent.news}
+                                    categorySlug={article.category?.slug}
                                     title={article.title}
                                     image={article.image}
                                     videoUrl={article.video_url}
-                                    date={article.created_at ? new Date(article.created_at).toLocaleDateString() : ''}
+                                    date={
+                                        article.created_at
+                                            ? formatDate(article.created_at, {
+                                                  month: 'short',
+                                                  day: 'numeric',
+                                                  year: 'numeric',
+                                              })
+                                            : ''
+                                    }
                                 />
                             ))}
                         </div>
@@ -101,45 +122,35 @@ export const MainContent = ({ posts }: { posts: any[] }) => {
                             {BRAND_NAME}
                         </span>
                         <h3 className="mt-4 font-serif text-3xl font-bold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                            A sharper look for a serious media brand.
+                            {text.mainContent.promoHeading}
                         </h3>
                         <p className="mt-4 text-sm leading-7 text-muted-foreground">
-                            The homepage now leans into video, cleaner hierarchy, tighter badges, and a stronger Hausa media identity while keeping the existing post engine intact.
+                            {text.mainContent.promoDescription}
                         </p>
                         <div className="mt-6 grid gap-3">
-                            <div className="rounded-[1rem] border border-border/80 bg-card/90 p-4">
-                                <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                    <PlayCircle className="h-4 w-4 text-accent" />
-                                    Featured video blocks
+                            {text.mainContent.promoItems.map((item) => (
+                                <div key={item} className="rounded-[1rem] border border-border/80 bg-card/90 p-4">
+                                    <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
+                                        <PlayCircle className="h-4 w-4 text-accent" />
+                                        {item}
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="rounded-[1rem] border border-border/80 bg-card/90 p-4">
-                                <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                    <PlayCircle className="h-4 w-4 text-accent" />
-                                    Premium BASHTV badges and cards
-                                </div>
-                            </div>
-                            <div className="rounded-[1rem] border border-border/80 bg-card/90 p-4">
-                                <div className="flex items-center gap-2 text-sm font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                                    <PlayCircle className="h-4 w-4 text-accent" />
-                                    Mobile-first layout hierarchy
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </aside>
                 </div>
             </section>
 
             <NewsSection
-                title="News"
-                description="Standard headline coverage remains available beneath the media-led entry points."
+                title={text.mainContent.news}
+                description={text.mainContent.newsDescription}
                 articles={newsArticles}
                 layout="featured"
             />
 
             <NewsSection
-                title="Metro"
-                description="Keep regional and community reporting accessible in a lighter grid."
+                title={text.mainContent.metro}
+                description={text.mainContent.metroDescription}
                 articles={metroArticles}
                 layout="grid"
             />

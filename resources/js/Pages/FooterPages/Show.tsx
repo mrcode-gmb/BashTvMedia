@@ -1,21 +1,19 @@
 import { Footer } from '@/Components/Footer';
 import { Header } from '@/Components/Headers';
+import { useLanguage } from '@/Components/LanguageProvider';
 import { MediaDisplay } from '@/Components/MediaDisplay';
 import { NewsCard } from '@/Components/NewsCard';
 import {
     BRAND_CHANNEL_URL,
     BRAND_HANDLE,
     BRAND_NAME,
-    BRAND_TAGLINE,
 } from '@/lib/brand';
 import { PageProps } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import {
-    ArrowRight,
     ChevronRight,
     Mail,
     PlayCircle,
-    Radio,
     Send,
     Youtube,
 } from 'lucide-react';
@@ -79,13 +77,6 @@ interface FooterPage {
     }>;
 }
 
-const formatDate = (dateString: string) =>
-    new Intl.DateTimeFormat('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-    }).format(new Date(dateString));
-
 const getPostHref = (post: Article) =>
     route('posts.show.full', post.public_id || post.slug || post.id);
 
@@ -126,14 +117,16 @@ export default function FooterPageShow({
     videoPosts: Article[];
     categories: Category[];
 }>) {
+    const { formatDate, getDeskPage, text } = useLanguage();
     const leadPost = posts[0] ?? null;
     const streamPosts = leadPost ? posts.slice(1) : posts;
     const isContact = page.slug === 'contact';
+    const localizedPage = getDeskPage(page.slug, page);
 
     return (
         <>
-            <Head title={`${page.title} - ${BRAND_NAME}`}>
-                <meta name="description" content={page.description} />
+            <Head title={`${localizedPage.title} - ${BRAND_NAME}`}>
+                <meta name="description" content={localizedPage.description} />
             </Head>
 
             <div className="min-h-screen bg-background">
@@ -145,24 +138,24 @@ export default function FooterPageShow({
                             <div className="rounded-[2rem] bg-white/92 p-6 shadow-[0_24px_70px_-38px_rgba(2,15,62,0.35)] md:p-8">
                                 <nav className="mb-6 flex flex-wrap items-center gap-2 text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
                                     <Link href="/" className="transition hover:text-accent">
-                                        Home
+                                        {text.header.home}
                                     </Link>
                                     <ChevronRight className="h-3.5 w-3.5" />
                                     <span className="text-[hsl(var(--BashTv-navy))]">
-                                        {page.title}
+                                        {localizedPage.title}
                                     </span>
                                 </nav>
 
-                                <p className="section-heading">{page.eyebrow}</p>
+                                <p className="section-heading">{localizedPage.eyebrow}</p>
                                 <h1 className="mt-3 font-serif text-3xl font-semibold text-[hsl(var(--BashTv-navy))] md:text-4xl">
-                                    {page.title}
+                                    {localizedPage.title}
                                 </h1>
                                 <p className="mt-4 max-w-3xl text-sm leading-8 text-muted-foreground md:text-base">
-                                    {page.description}
+                                    {localizedPage.description}
                                 </p>
 
                                 <div className="mt-6 flex flex-wrap gap-2">
-                                    {page.focus_points.map((point) => (
+                                    {localizedPage.focus_points.map((point) => (
                                         <span
                                             key={point}
                                             className="rounded-full bg-[hsl(var(--BashTv-light))] px-4 py-2 text-sm font-medium text-[hsl(var(--BashTv-navy))]"
@@ -175,16 +168,16 @@ export default function FooterPageShow({
                                 <div className="mt-8 flex flex-wrap gap-3">
                                     {renderActionLink(
                                         page.cta_href,
-                                        page.cta_label,
+                                        localizedPage.cta_label,
                                         page.cta_external,
                                         'inline-flex items-center gap-2 rounded-full bg-[hsl(var(--BashTv-navy))] px-5 py-3 text-sm font-medium text-white transition hover:bg-accent',
                                     )}
 
-                                    {page.secondary_cta_label &&
+                                    {localizedPage.secondary_cta_label &&
                                         page.secondary_cta_href &&
                                         renderActionLink(
                                             page.secondary_cta_href,
-                                            page.secondary_cta_label,
+                                            localizedPage.secondary_cta_label,
                                             page.secondary_cta_external,
                                             'inline-flex items-center gap-2 rounded-full bg-[hsl(var(--BashTv-light))] px-5 py-3 text-sm font-medium text-[hsl(var(--BashTv-navy))] transition hover:text-accent',
                                         )}
@@ -194,18 +187,17 @@ export default function FooterPageShow({
                             {isContact ? (
                                 <aside className="brand-shell p-6 md:p-7">
                                     <p className="section-heading text-[hsl(var(--BashTv-light-gold))]">
-                                        Quick Reach
+                                        {text.footerPages.quickReach}
                                     </p>
                                     <h2 className="mt-3 font-serif text-2xl font-semibold text-white">
-                                        Contact the BASHTV team without friction.
+                                        {text.footerPages.quickReachHeading}
                                     </h2>
                                     <p className="mt-4 text-sm leading-7 text-white/72">
-                                        Use the direct newsroom email, send a tip, or move into the
-                                        YouTube desk for channel-based outreach.
+                                        {text.footerPages.quickReachDescription}
                                     </p>
 
                                     <div className="mt-6 space-y-3">
-                                        {(page.contact_options || []).slice(0, 2).map((item) => (
+                                        {(localizedPage.contact_options || []).slice(0, 2).map((item) => (
                                             <a
                                                 key={item.title}
                                                 href={item.href}
@@ -242,13 +234,13 @@ export default function FooterPageShow({
                                             <div className="absolute left-4 top-4">
                                                 <span className="brand-outline flex items-center gap-2 border-white/10 bg-[hsl(var(--BashTv-navy))]/80 text-white">
                                                     <PlayCircle className="h-3.5 w-3.5 text-[hsl(var(--BashTv-light-gold))]" />
-                                                    Video Story
+                                                    {text.footerPages.videoStory}
                                                 </span>
                                             </div>
                                         )}
                                     </div>
                                     <div className="p-6">
-                                        <p className="section-heading">Lead Story</p>
+                                        <p className="section-heading">{text.footerPages.leadStory}</p>
                                         <h2 className="mt-3 font-serif text-2xl font-semibold leading-tight text-[hsl(var(--BashTv-navy))] transition group-hover:text-accent">
                                             {leadPost.title}
                                         </h2>
@@ -266,13 +258,13 @@ export default function FooterPageShow({
                             ) : (
                                 <aside className="brand-shell p-6 md:p-7">
                                     <p className="section-heading text-[hsl(var(--BashTv-light-gold))]">
-                                        BASHTV Desk
+                                        {text.footerPages.deskFallback}
                                     </p>
                                     <h2 className="mt-3 font-serif text-2xl font-semibold text-white">
-                                        {page.summary}
+                                        {localizedPage.summary}
                                     </h2>
                                     <p className="mt-4 text-sm leading-7 text-white/72">
-                                        {BRAND_TAGLINE}
+                                        {text.branding.tagline}
                                     </p>
                                 </aside>
                             )}
@@ -284,13 +276,13 @@ export default function FooterPageShow({
                             <section className="container py-2">
                                 <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
                                     <div className="rounded-[2rem] bg-white/92 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)] md:p-8">
-                                        <p className="section-heading">Contact Options</p>
+                                        <p className="section-heading">{text.footerPages.contactOptions}</p>
                                         <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
-                                            Choose the right path into the newsroom.
+                                            {text.footerPages.contactHeading}
                                         </h2>
 
                                         <div className="mt-6 grid gap-4 md:grid-cols-2">
-                                            {(page.contact_options || []).map((item) => (
+                                            {(localizedPage.contact_options || []).map((item) => (
                                                 <a
                                                     key={item.title}
                                                     href={item.href}
@@ -313,24 +305,24 @@ export default function FooterPageShow({
                                     </div>
 
                                     <aside className="rounded-[2rem] bg-gradient-to-br from-white via-[hsl(var(--BashTv-light))] to-accent/5 p-6 shadow-[0_20px_60px_-36px_rgba(2,15,62,0.28)]">
-                                        <p className="section-heading">What To Include</p>
+                                        <p className="section-heading">{text.footerPages.includeTitle}</p>
                                         <div className="mt-5 space-y-4">
                                             <div className="rounded-[1.35rem] bg-white p-4">
                                                 <div className="flex items-center gap-2 text-sm font-medium text-[hsl(var(--BashTv-navy))]">
                                                     <Mail className="h-4 w-4 text-primary" />
-                                                    Your name and reason for contact
+                                                    {text.footerPages.includeItems[0]}
                                                 </div>
                                             </div>
                                             <div className="rounded-[1.35rem] bg-white p-4">
                                                 <div className="flex items-center gap-2 text-sm font-medium text-[hsl(var(--BashTv-navy))]">
                                                     <Send className="h-4 w-4 text-accent" />
-                                                    Useful context or links if you have them
+                                                    {text.footerPages.includeItems[1]}
                                                 </div>
                                             </div>
                                             <div className="rounded-[1.35rem] bg-white p-4">
                                                 <div className="flex items-center gap-2 text-sm font-medium text-[hsl(var(--BashTv-navy))]">
                                                     <Youtube className="h-4 w-4 text-primary" />
-                                                    Channel-based inquiries for video opportunities
+                                                    {text.footerPages.includeItems[2]}
                                                 </div>
                                             </div>
                                         </div>
@@ -341,9 +333,9 @@ export default function FooterPageShow({
                             <section className="container pt-8">
                                 <div className="flex items-center justify-between gap-4">
                                     <div>
-                                        <p className="section-heading">Newsroom Flow</p>
+                                        <p className="section-heading">{text.footerPages.newsroomFlow}</p>
                                         <h2 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
-                                            Latest from BASHTV MEDIA
+                                            {text.footerPages.latestFromBrand}
                                         </h2>
                                     </div>
                                 </div>
@@ -356,6 +348,7 @@ export default function FooterPageShow({
                                                 image={post.image || undefined}
                                                 videoUrl={post.video_url || undefined}
                                                 category={post.category?.name || BRAND_NAME}
+                                                categorySlug={post.category?.slug}
                                                 title={post.title}
                                                 publicId={post.public_id}
                                                 excerpt={post.excerpt || undefined}
@@ -366,8 +359,7 @@ export default function FooterPageShow({
                                 ) : (
                                     <div className="mt-6 rounded-[1.8rem] bg-white/90 p-8 text-center shadow-[0_16px_50px_-34px_rgba(2,15,62,0.22)]">
                                         <p className="text-muted-foreground">
-                                            Latest newsroom stories will appear here as BASHTV continues
-                                            publishing.
+                                            {text.footerPages.latestNewsroomStories}
                                         </p>
                                     </div>
                                 )}
@@ -381,10 +373,10 @@ export default function FooterPageShow({
                                         <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
                                             <div>
                                                 <p className="section-heading text-[hsl(var(--BashTv-light-gold))]">
-                                                    Video Bulletin
+                                                    {text.footerPages.videoBulletin}
                                                 </p>
                                                 <h2 className="mt-2 font-serif text-2xl font-semibold text-white">
-                                                    Watch the media side of this desk.
+                                                    {text.footerPages.watchDeskMedia}
                                                 </h2>
                                             </div>
                                             <a
@@ -404,7 +396,8 @@ export default function FooterPageShow({
                                                     key={post.id}
                                                     image={post.image || undefined}
                                                     videoUrl={post.video_url || undefined}
-                                                    category={post.category?.name || page.title}
+                                                    category={post.category?.name || localizedPage.title}
+                                                    categorySlug={post.category?.slug}
                                                     title={post.title}
                                                     publicId={post.public_id}
                                                     excerpt={post.excerpt || undefined}
@@ -422,9 +415,9 @@ export default function FooterPageShow({
                             <section className="container pt-6">
                                 <div className="flex items-center justify-between gap-4">
                                     <div>
-                                        <p className="section-heading">Coverage Stream</p>
+                                        <p className="section-heading">{text.footerPages.coverageStream}</p>
                                         <h2 className="mt-2 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))]">
-                                            Latest in {page.title}
+                                            {text.footerPages.latestIn(localizedPage.title)}
                                         </h2>
                                     </div>
                                 </div>
@@ -436,7 +429,8 @@ export default function FooterPageShow({
                                                 key={post.id}
                                                 image={post.image || undefined}
                                                 videoUrl={post.video_url || undefined}
-                                                category={post.category?.name || page.title}
+                                                category={post.category?.name || localizedPage.title}
+                                                categorySlug={post.category?.slug}
                                                 title={post.title}
                                                 publicId={post.public_id}
                                                 excerpt={post.excerpt || undefined}
@@ -447,8 +441,7 @@ export default function FooterPageShow({
                                 ) : (
                                     <div className="mt-6 rounded-[1.8rem] bg-white/90 p-8 text-center shadow-[0_16px_50px_-34px_rgba(2,15,62,0.22)]">
                                         <p className="text-muted-foreground">
-                                            More stories for this desk will appear here as the BASHTV
-                                            archive grows.
+                                            {text.footerPages.moreStories}
                                         </p>
                                     </div>
                                 )}

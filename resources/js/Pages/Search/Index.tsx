@@ -2,6 +2,7 @@ import { PageProps } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { Header } from '@/Components/Headers';
 import { Footer } from '@/Components/Footer';
+import { useLanguage } from '@/Components/LanguageProvider';
 import { MediaDisplay } from '@/Components/MediaDisplay';
 import { Calendar, Eye, User, Search as SearchIcon } from 'lucide-react';
 
@@ -52,9 +53,11 @@ export default function SearchIndex({
     posts: PaginatedPosts;
     categories: Category[];
 }>) {
+    const { formatDate, formatNumber, resultLabel, text, translateCategory } = useLanguage();
+
     return (
         <>
-            <Head title={`Search: ${query} - BASHTV MEDIA`} />
+            <Head title={`${text.search.title}: ${query} - BASHTV MEDIA`} />
             <div className="min-h-screen bg-background">
                 <Header categories={categories} />
                 
@@ -64,14 +67,14 @@ export default function SearchIndex({
                         <div className="flex items-center gap-3 mb-3">
                             <SearchIcon className="text-primary" size={32} />
                             <h1 className="text-3xl md:text-4xl font-bold font-serif">
-                                Search Results
+                                {text.search.title}
                             </h1>
                         </div>
                         <p className="text-lg text-muted-foreground">
-                            Showing results for: <span className="font-semibold text-foreground">"{query}"</span>
+                            {text.search.showingFor}: <span className="font-semibold text-foreground">"{query}"</span>
                         </p>
                         <p className="text-sm text-muted-foreground mt-1">
-                            {posts.total} {posts.total === 1 ? 'result' : 'results'} found
+                            {formatNumber(posts.total)} {resultLabel(posts.total)}
                         </p>
                     </div>
 
@@ -103,7 +106,7 @@ export default function SearchIndex({
                                                 {/* Category Badge */}
                                                 {post.category && (
                                                     <span className="mb-2 inline-block rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-                                                        {post.category.name}
+                                                        {translateCategory(post.category.slug, post.category.name)}
                                                     </span>
                                                 )}
 
@@ -126,12 +129,16 @@ export default function SearchIndex({
                                                     <div className="flex items-center gap-1">
                                                         <Calendar size={14} />
                                                         <span>
-                                                            {new Date(post.published_at).toLocaleDateString()}
+                                                            {formatDate(post.published_at, {
+                                                                month: 'short',
+                                                                day: 'numeric',
+                                                                year: 'numeric',
+                                                            })}
                                                         </span>
                                                     </div>
                                                     <div className="flex items-center gap-1">
                                                         <Eye size={14} />
-                                                        <span>{post.views}</span>
+                                                        <span>{formatNumber(post.views)}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -166,22 +173,22 @@ export default function SearchIndex({
                             <div className="mb-6">
                                 <SearchIcon className="mx-auto text-muted-foreground" size={64} strokeWidth={1} />
                             </div>
-                            <h2 className="text-2xl font-bold mb-2">No Results Found</h2>
+                            <h2 className="text-2xl font-bold mb-2">{text.search.noResults}</h2>
                             <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-                                We couldn't find any articles matching "{query}". Try different keywords or browse our categories.
+                                {text.search.noResultsDescription}
                             </p>
                             <div className="flex gap-3 justify-center">
                                 <Link
                                     href="/"
                                     className="rounded-full bg-primary px-6 py-2 font-medium text-primary-foreground transition-colors hover:bg-primary/90"
                                 >
-                                    Back to Home
+                                    {text.search.backHome}
                                 </Link>
                                 <Link
                                     href="/categories"
                                     className="rounded-full bg-muted px-6 py-2 font-medium transition-colors hover:bg-accent hover:text-white"
                                 >
-                                    Browse Categories
+                                    {text.search.browseCategories}
                                 </Link>
                             </div>
                         </div>

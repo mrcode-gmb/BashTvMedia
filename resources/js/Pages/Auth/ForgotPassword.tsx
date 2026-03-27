@@ -1,12 +1,14 @@
 import { Button } from '@/Components/ui/button';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
+import { useLanguage } from '@/Components/LanguageProvider';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowRight, Mail } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 export default function ForgotPassword({ status }: { status?: string }) {
+    const { text } = useLanguage();
     const { data, setData, post, processing, errors } = useForm({
         email: '',
     });
@@ -18,16 +20,15 @@ export default function ForgotPassword({ status }: { status?: string }) {
 
     return (
         <GuestLayout>
-            <Head title="Forgot Password" />
+            <Head title={text.auth.recovery} />
 
             <div>
-                <p className="section-heading">Recovery</p>
+                <p className="section-heading">{text.auth.recovery}</p>
                 <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                    Reset your BASHTV account access.
+                    {text.auth.forgotHeading}
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                    Enter your email address and we will send you a reset link so you can
-                    choose a new password.
+                    {text.auth.forgotDescription}
                 </p>
             </div>
 
@@ -40,7 +41,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
             <form onSubmit={submit} className="mt-8 space-y-5">
                 <div className="space-y-2">
                     <Label htmlFor="email" className="text-[hsl(var(--BashTv-navy))] dark:text-white">
-                        Email
+                        {text.auth.email}
                     </Label>
                     <div className="relative">
                         <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -64,15 +65,15 @@ export default function ForgotPassword({ status }: { status?: string }) {
                     disabled={processing}
                 >
                     <span>
-                        {processing ? 'Sending reset link...' : 'Email Password Reset Link'}
+                        {processing ? text.auth.sendingResetLink : text.auth.sendResetLink}
                     </span>
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
 
                 <div className="text-center text-sm text-muted-foreground">
-                    Remember your password?{' '}
+                    {text.auth.rememberPassword}{' '}
                     <Link href={route('login')} className="font-medium text-accent hover:underline">
-                        Back to login
+                        {text.auth.backToLogin}
                     </Link>
                 </div>
             </form>

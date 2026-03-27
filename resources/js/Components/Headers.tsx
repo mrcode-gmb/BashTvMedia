@@ -1,10 +1,12 @@
+import { LanguageToggle } from '@/Components/LanguageToggle';
+import { useLanguage } from '@/Components/LanguageProvider';
 import { Link, router } from '@inertiajs/react';
 import { Home, Moon, PlayCircle, Radio, Search, Sun, Youtube } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 import { PantamiLogoCompact } from '@/Components/PantamiLogo';
 import { useTheme } from '@/Components/ThemeProvider';
-import { BRAND_CHANNEL_URL, BRAND_HANDLE, BRAND_SHORT_TAGLINE } from '@/lib/brand';
+import { BRAND_CHANNEL_URL, BRAND_HANDLE } from '@/lib/brand';
 
 interface SubCategory {
     id: number;
@@ -48,10 +50,11 @@ export const Header: React.FC<HeaderProps> = ({
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const { theme, setTheme } = useTheme();
+    const { formatDate, text, translateCategory, translateSubcategory } = useLanguage();
 
     const navItems = useMemo(() => sortByPriority(categories), [categories]);
     const activeCategoryItem = navItems.find((item) => item.slug === activeCategory) ?? null;
-    const today = new Date().toLocaleDateString('en-US', {
+    const today = formatDate(new Date(), {
         weekday: 'short',
         month: 'long',
         day: 'numeric',
@@ -75,7 +78,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="container flex items-center justify-between gap-3 py-2 text-[11px] sm:text-xs">
                     <div className="flex min-w-0 items-center gap-2 uppercase tracking-[0.28em] text-white/78">
                         <Radio className="h-3.5 w-3.5 text-[hsl(var(--BashTv-light-gold))]" />
-                        <span className="truncate">{BRAND_SHORT_TAGLINE}</span>
+                        <span className="truncate">{text.branding.shortTagline}</span>
                     </div>
                     <div className="hidden items-center gap-4 text-white/66 lg:flex">
                         <span>{today}</span>
@@ -88,8 +91,8 @@ export const Header: React.FC<HeaderProps> = ({
                         className="inline-flex shrink-0 items-center gap-2 rounded-full bg-white/10 px-3 py-1 font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-white/16"
                     >
                         <Youtube className="h-3.5 w-3.5 text-[hsl(var(--BashTv-light-gold))]" />
-                        <span className="hidden sm:inline">Watch Channel</span>
-                        <span className="sm:hidden">Watch</span>
+                        <span className="hidden sm:inline">{text.header.watchChannel}</span>
+                        <span className="sm:hidden">{text.header.watchShort}</span>
                     </a>
                 </div>
             </div>
@@ -99,7 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
                     <Link
                         href="/"
                         className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-sm transition hover:border-accent hover:text-accent sm:inline-flex"
-                        aria-label="Home"
+                        aria-label={text.header.home}
                     >
                         <Home className="h-5 w-5" />
                     </Link>
@@ -115,15 +118,16 @@ export const Header: React.FC<HeaderProps> = ({
                             type="button"
                             onClick={() => setSearchOpen((open) => !open)}
                             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-sm transition hover:border-accent hover:text-accent"
-                            aria-label="Toggle search"
+                            aria-label={text.header.searchAria}
                         >
                             <Search className="h-5 w-5" />
                         </button>
+                        <LanguageToggle />
                         <button
                             type="button"
                             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                             className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-card text-foreground shadow-sm transition hover:border-accent hover:text-accent"
-                            aria-label="Toggle theme"
+                            aria-label={text.header.themeAria}
                         >
                             {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                         </button>
@@ -137,7 +141,7 @@ export const Header: React.FC<HeaderProps> = ({
                                 type="text"
                                 value={searchQuery}
                                 onChange={(event) => setSearchQuery(event.target.value)}
-                                placeholder="Search headlines, reports, and video stories..."
+                                placeholder={text.header.searchPlaceholder}
                                 className="min-h-12 flex-1 rounded-full border border-border bg-background px-5 text-sm text-foreground outline-none transition focus:border-accent focus:ring-2 focus:ring-accent/20"
                                 autoFocus
                             />
@@ -145,7 +149,7 @@ export const Header: React.FC<HeaderProps> = ({
                                 type="submit"
                                 className="epaper-btn min-h-12 rounded-full px-6"
                             >
-                                Search
+                                {text.header.searchButton}
                             </button>
                         </form>
                     </div>
@@ -163,7 +167,7 @@ export const Header: React.FC<HeaderProps> = ({
                         }`}
                     >
                         <Home className="h-3.5 w-3.5" />
-                        Home
+                        {text.header.home}
                     </Link>
 
                     {navItems.map((item) => {
@@ -179,7 +183,7 @@ export const Header: React.FC<HeaderProps> = ({
                                         : 'border border-border bg-background text-foreground/70 hover:border-accent hover:text-accent'
                                 }`}
                             >
-                                {item.name}
+                                {translateCategory(item.slug, item.name)}
                             </Link>
                         );
                     })}
@@ -191,7 +195,7 @@ export const Header: React.FC<HeaderProps> = ({
                         className="inline-flex shrink-0 items-center gap-2 rounded-full bg-accent px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-accent/90"
                     >
                         <PlayCircle className="h-3.5 w-3.5" />
-                        Featured Videos
+                        {text.header.featuredVideos}
                     </a>
                 </div>
             </div>
@@ -205,7 +209,7 @@ export const Header: React.FC<HeaderProps> = ({
                                 href={`/category/${activeCategoryItem.slug}/${subcategory.slug}`}
                                 className="inline-flex shrink-0 items-center rounded-full border border-primary/15 bg-card px-4 py-2 text-xs font-medium uppercase tracking-[0.18em] text-foreground/72 transition hover:border-accent hover:text-accent"
                             >
-                                {subcategory.name}
+                                {translateSubcategory(subcategory.slug, subcategory.name)}
                             </Link>
                         ))}
                     </div>

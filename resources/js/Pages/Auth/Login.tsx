@@ -2,12 +2,14 @@ import { Button } from '@/Components/ui/button';
 import { Checkbox } from '@/Components/ui/checkbox';
 import { Input } from '@/Components/ui/input';
 import { Label } from '@/Components/ui/label';
+import { useLanguage } from '@/Components/LanguageProvider';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { ArrowRight, LockKeyhole, Mail } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
 export default function Login() {
+    const { text } = useLanguage();
     const { data, setData, post, processing, errors } = useForm({
         email: '',
         password: '',
@@ -21,23 +23,22 @@ export default function Login() {
 
     return (
         <GuestLayout>
-            <Head title="Login" />
+            <Head title={text.auth.signIn} />
 
             <div>
-                <p className="section-heading">Sign In</p>
+                <p className="section-heading">{text.auth.signIn}</p>
                 <h2 className="mt-3 font-serif text-2xl font-semibold text-[hsl(var(--BashTv-navy))] dark:text-white">
-                    Welcome back to the BASHTV newsroom.
+                    {text.auth.loginHeading}
                 </h2>
                 <p className="mt-3 text-sm leading-7 text-muted-foreground">
-                    Log in to manage stories, review submissions, and keep the media desk
-                    moving.
+                    {text.auth.loginDescription}
                 </p>
             </div>
 
             <form onSubmit={submit} className="mt-8 space-y-5">
                 <div className="space-y-2">
                     <Label htmlFor="email" className="text-[hsl(var(--BashTv-navy))] dark:text-white">
-                        Email
+                        {text.auth.email}
                     </Label>
                     <div className="relative">
                         <Mail className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -57,13 +58,13 @@ export default function Login() {
                 <div className="space-y-2">
                     <div className="flex items-center justify-between gap-3">
                         <Label htmlFor="password" className="text-[hsl(var(--BashTv-navy))] dark:text-white">
-                            Password
+                            {text.auth.password}
                         </Label>
                         <Link
                             href={route('password.request')}
                             className="text-sm font-medium text-accent hover:underline"
                         >
-                            Forgot password?
+                            {text.auth.forgotPassword}
                         </Link>
                     </div>
                     <div className="relative">
@@ -90,7 +91,7 @@ export default function Login() {
                         htmlFor="remember"
                         className="text-sm font-medium text-[hsl(var(--BashTv-navy))] dark:text-white"
                     >
-                        Keep me signed in on this device
+                        {text.auth.keepSignedIn}
                     </label>
                 </div>
 
@@ -99,15 +100,15 @@ export default function Login() {
                     disabled={processing}
                     className="h-12 w-full rounded-full bg-[hsl(var(--BashTv-navy))] text-white transition hover:bg-accent"
                 >
-                    <span>{processing ? 'Signing in...' : 'Login to Dashboard'}</span>
+                    <span>{processing ? text.auth.signingIn : text.auth.loginButton}</span>
                     <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
             </form>
 
             <div className="mt-6 text-center text-sm text-muted-foreground">
-                Don&apos;t have an account?{' '}
+                {text.auth.noAccount}{' '}
                 <Link href={route('register')} className="font-medium text-accent hover:underline">
-                    Sign up
+                    {text.auth.signUp}
                 </Link>
             </div>
         </GuestLayout>

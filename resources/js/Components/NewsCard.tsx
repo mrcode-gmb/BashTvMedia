@@ -1,6 +1,7 @@
 import { Link } from '@inertiajs/react';
 import { CalendarDays, PlayCircle } from 'lucide-react';
 
+import { useLanguage } from '@/Components/LanguageProvider';
 import { MediaDisplay } from '@/Components/MediaDisplay';
 import { cn } from '@/lib/utils';
 
@@ -8,6 +9,7 @@ interface NewsCardProps {
     image?: string;
     videoUrl?: string;
     category: string;
+    categorySlug?: string;
     title: string;
     publicId?: string;
     excerpt?: string;
@@ -22,6 +24,7 @@ export const NewsCard = ({
     image,
     videoUrl,
     category,
+    categorySlug,
     title,
     publicId,
     excerpt,
@@ -31,6 +34,7 @@ export const NewsCard = ({
     className = '',
     lightText = false,
 }: NewsCardProps) => {
+    const { text, translateCategory } = useLanguage();
     const href = publicId ? route('posts.show.full', publicId) : slug ? route('posts.show.full', slug) : null;
     const cardClassName = cn(
         'card-news group block',
@@ -68,7 +72,7 @@ export const NewsCard = ({
                         <div className="absolute inset-x-0 bottom-3 flex justify-center">
                             <span className="inline-flex items-center gap-1 rounded-full bg-[hsl(var(--BashTv-navy))]/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white">
                                 <PlayCircle className="h-3 w-3 text-[hsl(var(--BashTv-light-gold))]" />
-                                Video
+                                {text.postPage.videoReport}
                             </span>
                         </div>
                     )}
@@ -77,7 +81,7 @@ export const NewsCard = ({
 
             <div className={cn('min-w-0', variant === 'default' && 'p-5')}>
                 <span className={cn('category-tag', lightText && 'border-white/15 bg-white/10 text-white')}>
-                    {category}
+                    {translateCategory(categorySlug, category)}
                 </span>
                 <h3
                     className={cn(
